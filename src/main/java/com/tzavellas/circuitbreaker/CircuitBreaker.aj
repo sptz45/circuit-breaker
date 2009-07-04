@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
+ * Implements the Circuit Breaker stability design pattern.
  * 
  * <p>Each {@code CircuitBreaker} instance is associated with an instance of
  * a circuit object as defined by the {@code circuit()} pointcut.

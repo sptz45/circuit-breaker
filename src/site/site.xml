@@ -29,6 +29,7 @@
 		<menu name="Quick Links">
 			<item name="Main" href="index.html"/>
 			<item name="FAQ" href="faq.html"/>
+			<item name="Source Code" href="http://github.com/sptz45/circuit-breaker/"/>
 			<item name="License" href="license.html"/>
 		</menu>
 		
