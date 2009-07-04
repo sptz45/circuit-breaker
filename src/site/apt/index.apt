@@ -9,10 +9,12 @@
  
 Introduction
  
-  <Circuit Breaker> is an implementation of the Circuit Breaker stability pattern as described in the book {{{http://pragmaticprogrammer.com/titles/mnee/index.html/}Release It!}} book by {{{http://www.michaelnygard.com/}Michael Nygard}}.
+  <Circuit Breaker> is an implementation of the <Circuit Breaker> stability pattern
+  as described in the book {{{http://pragmaticprogrammer.com/titles/mnee/index.html/}Release It!}}
+  book by {{{http://www.michaelnygard.com/}Michael Nygard}}.
   
-  The circuit breaker is implemented as an {{{http://www.eclipse.org/aspectj}aspectj}}
-  aspect and it is designed to be easily configurable using dependancy injection.
+  The <Circuit Breaker> is implemented as an {{{http://www.eclipse.org/aspectj}aspectj}}
+  aspect and it is designed to be easily configurable using dependency injection.
   
   For more information please read the {{{faq.html}FAQ}}.
 
