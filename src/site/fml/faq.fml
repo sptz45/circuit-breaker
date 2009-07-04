@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<faqs id="FAQ" title="Frequently Asked Questions">
+  <part id="General">
+    <faq id="usage">
+      <question>How do I use the circuit breaker aspect in my project?</question>
+      <answer>
+        <p>
+          First of all, since CircuitBreaker is a aspectj aspect you need to
+          compile your project's code with the aspectj compiler or use load time
+          weaving. For more information on how to set up aspectj for you project
+          see the <a href="http://www.eclipse.org/aspectj">AspectJ website</a>.
+        </p>
+        <p>
+          In order to use the circuit breaker you have to extend the 
+          <tt>com.tzavellas.circuitbreaker.CircuitBreaker</tt> aspect 
+          and define the <tt>circuit()</tt> abstract pointcut. This pointcut
+          defines the objects that the CircuitBreaker aspect will get applied to.
+          Please note that if you are using load time weaving you can avoid
+          subclassing the aspect by providing the pointcut in aop.xml.
+        </p>
+        <p>
+          To make the things more  concrete suppose that you want to apply the
+          circuit breaker to all the integration points in your application and 
+          that you have marked all of them with a <tt>@IntegrationPoint</tt>
+          annotation.
+          <source>
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface IntegrationPoint { }
+          </source>
+        </p>
+        <p>
+          An example integration point:
+          <source>
+package com.example.stocks;
+
+@IntegrationPoint
+public class StockService {
+	
+  public int getQuote(String ticker) {
+    // so some remote calls, etc
+  }
+}
+          </source>
+        </p>
+        <p>
+          Now to apply the circuit breaker to all integration points you use the
+          following aspect definition:
+         <source>
+public aspect IntegrationPointBreaker extends CircuitBreaker {
+  pointcut circuit(): within(@IntegrationPoint com.example.*);
+}
+          </source>
+        </p>
+      </answer>
+    </faq>
+    <faq id="jmx">
+      <question>Can I monitor and open/close circuits via JMX?</question>
+      <answer>
+        <p>
+          JMX is disabled by default, to enable it you have to set the enableJmx
+          property to true in CircuitBreakerConfigurator before any CircuitBreaker
+          aspect gets instantiated.
+          <source>CircuitBreakerConfigurator.aspectOf().setEnableJmx(true);</source>
+        </p>
+        <p>For more information see the JmxTest test case.</p>
+      </answer>
+    </faq>
+    <faq id="injection">
+      <question>How can I configure the circuit breakers via dependency injection?</question>
+      <answer>
+        <p>
+          To configure the circuit breaker of a bean with id "myIntegrationPoint"
+          that has the "com.example.MyCircuitBreaker" (subclass of  com.tzavellas.circuitbreaker.CircuitBreaker) aspect applied to use the following
+          Spring bean definition:
+          <source>
+&lt;bean class="com.tzavellas.circuitbreaker.CircuitConfiguratorBean"&gt;
+  &lt;property name="aspectClass" value="com.example.MyCircuitBreaker"/&gt;
+  &lt;property name="circuit" ref="myIntegrationPoint"/&gt;
+  &lt;property name="maxFailures" value="10"/&gt;
+  &lt;property name="timeoutMillis" value="10000"/&gt;            
+&lt;/bean&gt;
+          </source>
+        </p>
+        <p>
+          To enable JMX for all circuit breakers via Spring use:
+          <source>
+&lt;bean class="com.tzavellas.circuitbreaker.CircuitBreakerConfigurator" factory-method="aspectOf"&gt;
+  &lt;property name="enableJmx" value="true"/&gt;
+&lt;/bean&gt;
+          </source>
+        </p>
+      </answer>
+    </faq>
+  </part>
+</faqs>

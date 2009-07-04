@@ -1,0 +1,39 @@
+<project name="Circuit Breaker">
+
+
+	<skin>
+    	<groupId>org.apache.maven.skins</groupId>
+    	<artifactId>maven-stylus-skin</artifactId>
+    	<version>1.0.1</version>
+	</skin>
+
+	<bannerLeft>
+		<name>Circuit Breaker</name>
+		<href>http://www.tzavellas.com/projects/circuit-breaker</href>
+	</bannerLeft>
+
+	<publishDate format="dd MMM yyyy" />
+	<body>
+		<head>
+			<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+			<script type="text/javascript">
+				_uacct = "UA-1911771-1";
+				urchinTracker();
+			</script>
+		</head>
+		<links>
+			<item name="Blog" href="http://www.tzavellas.com/techblog/"/>
+			<item name="Projects" href="http://www.tzavellas.com/techblog/projects/"/>
+		</links>
+	
+		<menu name="Quick Links">
+			<item name="Main" href="index.html"/>
+			<item name="FAQ" href="faq.html"/>
+			<item name="License" href="license.html"/>
+		</menu>
+		
+		<menu ref="reports"/>
+		
+	</body>
+  
+</project>

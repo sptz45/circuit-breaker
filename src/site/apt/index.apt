@@ -1,0 +1,28 @@
+                  ----------------
+                    Introduction
+                  ----------------
+                  Spiros Tzavellas
+                  ----------------
+                      July 2009
+                  ----------------
+ 
+ 
+Introduction
+ 
+  <Circuit Breaker> is an implementation of the Circuit Breaker stability pattern as described in the book {{{http://pragmaticprogrammer.com/titles/mnee/index.html/}Release It!}} book by {{{http://www.michaelnygard.com/}Michael Nygard}}.
+  
+  The circuit breaker is implemented as an {{{http://www.eclipse.org/aspectj}aspectj}}
+  aspect and it is designed to be easily configurable using dependancy injection.
+  
+  For more information please read the {{{faq.html}FAQ}}.
+
+Status
+
+  The project has no stable release yet.
+
+
+News
+
+	* <<4 July 2009:>> First public release, your feedback is welcome.
+
+	[] 
