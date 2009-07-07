@@ -32,6 +32,11 @@ public abstract aspect CircuitBreaker perthis(circuit()){
 	before() : circuitExecution() {
 		if (circuit.isOpen())
 			throw new OpenCircuitException(circuit);
+
+		if (circuit.isHalfOpen())
+			circuit.close();
+
+		circuit.recordCall();
 	}
 	
 	after() throwing(Throwable e) : circuitExecution() {
@@ -44,7 +49,6 @@ public abstract aspect CircuitBreaker perthis(circuit()){
 
 	private Circuit circuit;
 	private CircuitJmxRegistrar registrar;
-	
 	
 	private final Set<Class<? extends Throwable>> ignoredExceptions = new CopyOnWriteArraySet<Class<? extends Throwable>>();
 	private boolean enableJmx = false;

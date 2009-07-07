@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * A class that holds all the metadata about the state of a circuit.
  *
- * <p>Instances of this class are thred safe.</p>
+ * <p>Instances of this class are thread safe.</p>
  * 
  * @see CircuitBreaker
  * @author spiros
@@ -22,7 +22,7 @@ public class Circuit implements CircuitMBean {
 	private final CircuitStatistics stats = new CircuitStatistics();
 	
 	private volatile int maxFailures;
-	private volatile long timeout;
+	private volatile long timeout; //XXX not thread safe (non atomic update)
 	
 	public Circuit() {
 		maxFailures = DEFAULT_MAX_FAILURES;
@@ -30,21 +30,23 @@ public class Circuit implements CircuitMBean {
 	}
 	
 	/** {@inheritDoc} */
+	public boolean isClosed() {
+		return ! isOpen();
+	}
+	
+	/** {@inheritDoc} */
 	public boolean isOpen() {
-		stats.calls.incrementAndGet();
-		boolean open = false;
-		if (currentFailures.get() >= maxFailures) {
-			if (hasExpired()) {
-				close();
-			} else {
-				open = true;
-			}
-		}
-		return open;
+		return currentFailures.get() >= maxFailures && !isHalfOpen();
+	}
+	
+	/** {@inheritDoc} */
+	public boolean isHalfOpen() {
+		return hasExpired();
 	}
 	
 	private boolean hasExpired() {
-		return openTimestamp.get() + timeout <= System.currentTimeMillis();
+		long timestampt = openTimestamp.get(); 
+		return timestampt != 0 && timestampt + timeout <= System.currentTimeMillis();
 	}
 	
 	/** {@inheritDoc} */
@@ -71,6 +73,13 @@ public class Circuit implements CircuitMBean {
 			open();
 		}
 		stats.failures.incrementAndGet();
+	}
+	
+	/**
+	 * Record that a successful call to the circuit.
+	 */
+	public void recordCall() {
+		stats.calls.incrementAndGet();
 	}
 
 	/** {@inheritDoc} */

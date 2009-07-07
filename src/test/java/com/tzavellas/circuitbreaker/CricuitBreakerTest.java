@@ -37,15 +37,18 @@ public class CricuitBreakerTest {
 	}
 	
 	@Test
-	public void the_circuit_closes_after_a_timeout() throws Exception {
-		StockBreaker.aspectOf(stocks).getCircuit().setTimeoutMillis(1);
+	public void the_circuit_is_half_open_after_the_timeout() throws Exception {
+		Circuit circuit = StockBreaker.aspectOf(stocks).getCircuit(); 
+		circuit.setTimeoutMillis(1);
 		generateFaultsToOpen();
 		Thread.sleep(2);
+		assertTrue(circuit.isHalfOpen());
 		assertEquals(5, stocks.getQuote("JAVA"));
+		assertEquals(0, circuit.getCurrentFailures());
 	}
 	
-	
-	public void ingoredExceptions() {
+	@Test
+	public void ignored_exceptions_do_not_open_a_circuit() {
 		StockBreaker breaker = StockBreaker.aspectOf(stocks);
 		breaker.ignoreException(RuntimeException.class);
 		generateFaultsToOpen();
@@ -56,7 +59,7 @@ public class CricuitBreakerTest {
 	
 	private void generateFaultsToOpen() {
 		for (int i = 0; i < Circuit.DEFAULT_MAX_FAILURES; i++) {
-			try {stocks.faultyGetQuote("JAVA"); } catch (RuntimeException expected) { }
+			try { stocks.faultyGetQuote("JAVA"); } catch (RuntimeException expected) { }
 		}
 	}
 }

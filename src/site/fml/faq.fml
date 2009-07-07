@@ -5,7 +5,7 @@
       <question>How do I use the circuit breaker aspect in my project?</question>
       <answer>
         <p>
-          First of all, since CircuitBreaker is a aspectj aspect you need to
+          First of all, since CircuitBreaker is an aspectj aspect you need to
           compile your project's code with the aspectj compiler or use load time
           weaving. For more information on how to set up aspectj for you project
           see the <a href="http://www.eclipse.org/aspectj">AspectJ website</a>.
@@ -39,7 +39,7 @@ package com.example.stocks;
 public class StockService {
 	
   public int getQuote(String ticker) {
-    // so some remote calls, etc
+    // do some remote calls, etc
   }
 }
           </source>

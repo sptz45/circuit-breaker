@@ -10,9 +10,19 @@ import java.util.Date;
 public interface CircuitMBean {
 
 	/**
+	 * Test whether the circuit is closed.
+	 */
+	boolean isClosed();
+	
+	/**
 	 * Test whether the circuit is open.
 	 */
 	boolean isOpen();
+	
+	/**
+	 * Test whether the circuit is open.
+	 */
+	boolean isHalfOpen();
 	
 	/**
 	 * Get the Date the circuit was opened.
