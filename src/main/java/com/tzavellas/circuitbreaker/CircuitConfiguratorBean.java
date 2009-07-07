@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
  * 
  * <p>To configure a circuit breaker you first specify the configuration values using this class'
  * property setters and then call the {@code CircuitConfiguratorBean#configure()}</p> method to apply
- * the configuration to the aspect.
+ * the configuration to the aspect.</p>
  * 
  * <p>This class is designed to be used with dependency injection frameworks. All
  * the configuration is done via javabean properties and the {@code CircuitConfiguratorBean#configure()}
@@ -32,15 +32,11 @@ public class CircuitConfiguratorBean {
 	 */
 	@PostConstruct
 	public void configure() throws Exception {
-		for (Method m : aspectClass.getMethods()) {
-			if ("aspectOf".equals(m.getName())) {
-				CircuitBreaker cb = (CircuitBreaker) m.invoke(null, circuit);
-				Circuit c = cb.getCircuit();
-				c.setMaxFailures(maxFailures);
-				c.setTimeoutMillis(timeoutMillis);
-				break;
-			}
-		}
+		Method m = aspectClass.getMethod("aspectOf", Object.class);
+		CircuitBreaker cb = (CircuitBreaker) m.invoke(null, circuit);
+		Circuit c = cb.getCircuit();
+		c.setMaxFailures(maxFailures);
+		c.setTimeoutMillis(timeoutMillis);
 	}
 	
 	/**

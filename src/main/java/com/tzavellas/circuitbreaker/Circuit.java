@@ -21,13 +21,9 @@ public class Circuit implements CircuitMBean {
 	private final AtomicLong openTimestamp = new AtomicLong();
 	private final CircuitStatistics stats = new CircuitStatistics();
 	
-	private volatile int maxFailures;
-	private volatile long timeout; //XXX not thread safe (non atomic update)
+	private volatile int maxFailures = DEFAULT_MAX_FAILURES;
+	private volatile long timeout = DEFAULT_TIMEOUT; //XXX not thread-safe (non atomic update)
 	
-	public Circuit() {
-		maxFailures = DEFAULT_MAX_FAILURES;
-		timeout = DEFAULT_TIMEOUT;
-	}
 	
 	/** {@inheritDoc} */
 	public boolean isClosed() {
