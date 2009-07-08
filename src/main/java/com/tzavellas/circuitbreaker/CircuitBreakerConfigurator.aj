@@ -2,7 +2,11 @@ package com.tzavellas.circuitbreaker;
 
 /**
  * An aspect that applies default configuration to all {@code CircuitBreaker}
- * aspects as soon as they are instantiated. 
+ * aspects as soon as they are instantiated.
+ * 
+ * <p>If you change this aspect's configuration the changes will not propagate
+ * to already instantiated {@code CircuitBreaker} aspects. The new configuration
+ * will get applied only to newly instantiated aspects.</p> 
  * 
  * @author spiros
  */

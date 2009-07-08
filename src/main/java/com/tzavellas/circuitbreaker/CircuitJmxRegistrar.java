@@ -10,9 +10,9 @@ import javax.management.ObjectName;
  * A class that knows how to register and unregister {@code Circuit}
  * objects in JMX.
  * 
- * <p> The {@code ObjectName} used for each {@code Circuit} is:
- * {@literal com.tzavellas.circuitbreaker:type=Circuit,target=targetName}.
- * Where targetName is the simple name of the class of the circuit (defined
+ * <p> The {@code ObjectName} used for each {@code CircuitMBean} is:
+ * {@literal com.tzavellas.circuitbreaker:type=Circuit,target=targetName},
+ * where targetName is the simple name of the class of the circuit (defined
  * by the circuit() pointcut). 
  * 
  * @see CircuitBreaker

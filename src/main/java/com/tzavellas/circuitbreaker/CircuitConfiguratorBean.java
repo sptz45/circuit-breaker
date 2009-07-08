@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
  * the configuration to the aspect.</p>
  * 
  * <p>This class is designed to be used with dependency injection frameworks. All
- * the configuration is done via javabean properties and the {@code CircuitConfiguratorBean#configure()}
+ * the configuration is done via Javabean properties and the {@code CircuitConfiguratorBean#configure()}
  * method is annotated with {@code @PostConstruct} so when used with the Spring Framework it is called
  * automatically.</p> 
  * 
@@ -55,7 +55,7 @@ public class CircuitConfiguratorBean {
 	}
 	
 	/**
-	 * Set the timeout in milliseconds before the circuit opens again.
+	 * Set the timeout in milliseconds before the circuit closes again.
 	 */
 	public void setTimeoutMillis(long timeoutMillis) {
 		this.timeoutMillis = timeoutMillis;

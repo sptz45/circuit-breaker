@@ -128,5 +128,4 @@ class CircuitStatistics {
 	AtomicInteger calls = new AtomicInteger();
 	AtomicInteger failures = new AtomicInteger();
 	AtomicInteger timesOpened = new AtomicInteger();
-	//TODO AtomicLong averageResponseTime = new AtomicLong();
 }
