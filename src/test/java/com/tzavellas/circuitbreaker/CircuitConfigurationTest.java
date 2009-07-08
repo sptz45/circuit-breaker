@@ -10,7 +10,7 @@ import com.tzavellas.test.TimeService;
 public class CircuitConfigurationTest {
 	
 	final TimeService time = new TimeService();
-	final int newMaxFailures = Circuit.DEFAULT_MAX_FAILURES + 1;
+	final int newMaxFailures = CircuitInfo.DEFAULT_MAX_FAILURES + 1;
 	final CircuitConfiguratorBean configurator = new CircuitConfiguratorBean();
 	
 	@Before
@@ -28,7 +28,7 @@ public class CircuitConfigurationTest {
 	public void change_maxFailures_and_test() throws Exception {
 		configurator.setMaxFailures(newMaxFailures);
 		configurator.configure();
-		generateFaults(Circuit.DEFAULT_MAX_FAILURES);
+		generateFaults(CircuitInfo.DEFAULT_MAX_FAILURES);
 		assertEquals(TimeService.EXPECTED, time.networkTime());
 		generateFaults(1);
 		try {
@@ -42,7 +42,7 @@ public class CircuitConfigurationTest {
 	public void change_timeout_and_test() throws Exception {
 		configurator.setTimeoutMillis(1);
 		configurator.configure();
-		generateFaults(Circuit.DEFAULT_MAX_FAILURES);
+		generateFaults(CircuitInfo.DEFAULT_MAX_FAILURES);
 		Thread.sleep(5);
 		assertEquals(TimeService.EXPECTED, time.networkTime());
 	}

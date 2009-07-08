@@ -7,34 +7,34 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
 /**
- * A class that knows how to register and unregister {@code Circuit}
+ * A class that knows how to register and unregister {@code CircuitInfo}
  * objects in JMX.
  * 
  * <p> The {@code ObjectName} used for each {@code CircuitMBean} is:
- * {@literal com.tzavellas.circuitbreaker:type=Circuit,target=targetName},
+ * {@literal com.tzavellas.circuitbreaker:type=CircuitInfo,target=targetName},
  * where targetName is the simple name of the class of the circuit (defined
  * by the circuit() pointcut). 
  * 
  * @see CircuitBreaker
- * @see Circuit
+ * @see CircuitInfo
  * 
  * @author spiros
  */
 class CircuitJmxRegistrar {
 	
-	private Circuit circuit;
+	private CircuitInfo circuit;
 	private String targetName;
 	private ObjectName name;
 	
 	
-	CircuitJmxRegistrar(Circuit c, String targetName) {
+	CircuitJmxRegistrar(CircuitInfo c, String targetName) {
 		circuit = c;
 		this.targetName = targetName;
 	}
 	
 	void register() {
 		try {
-			name = new ObjectName("com.tzavellas.circuitbreaker:type=Circuit,target=" + targetName);
+			name = new ObjectName("com.tzavellas.circuitbreaker:type=CircuitInfo,target=" + targetName);
 			MBeanServer server = ManagementFactory.getPlatformMBeanServer();
 			server.registerMBean(circuit, name);
 		} catch (JMException e) {

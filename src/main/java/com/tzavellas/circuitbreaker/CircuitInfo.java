@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @see CircuitBreaker
  * @author spiros
  */
-public class Circuit implements CircuitMBean {
+public class CircuitInfo implements CircuitMBean {
 	
 	public static final int DEFAULT_MAX_FAILURES = 5;
 	public static final long DEFAULT_TIMEOUT = 10 * 60 * 1000; // 10min

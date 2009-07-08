@@ -41,7 +41,7 @@ public class JmxTest {
 		
 		CircuitMBean mbean = JMX.newMBeanProxy(
 				ManagementFactory.getPlatformMBeanServer(),
-				new ObjectName("com.tzavellas.circuitbreaker:type=Circuit,target=TimeService"),
+				new ObjectName("com.tzavellas.circuitbreaker:type=CircuitInfo,target=TimeService"),
 				CircuitMBean.class);
 		
 		assertEquals(1, mbean.getCalls());

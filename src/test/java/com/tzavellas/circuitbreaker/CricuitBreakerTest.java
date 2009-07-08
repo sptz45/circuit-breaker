@@ -3,7 +3,7 @@ package com.tzavellas.circuitbreaker;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import com.tzavellas.circuitbreaker.Circuit;
+import com.tzavellas.circuitbreaker.CircuitInfo;
 import com.tzavellas.circuitbreaker.OpenCircuitException;
 import com.tzavellas.test.StockService;
 
@@ -28,7 +28,7 @@ public class CricuitBreakerTest {
 		try {
 			stocks.getQuote("JAVA");
 		} catch (OpenCircuitException e) {
-			Circuit c = e.getCircuit();
+			CircuitInfo c = e.getCircuit();
 			assertTrue(c.isOpen());
 			c.close();
 			assertFalse(c.isOpen());
@@ -38,7 +38,7 @@ public class CricuitBreakerTest {
 	
 	@Test
 	public void the_circuit_is_half_open_after_the_timeout() throws Exception {
-		Circuit circuit = StockBreaker.aspectOf(stocks).getCircuit(); 
+		CircuitInfo circuit = StockBreaker.aspectOf(stocks).getCircuitInfo(); 
 		circuit.setTimeoutMillis(1);
 		generateFaultsToOpen();
 		Thread.sleep(2);
@@ -53,12 +53,12 @@ public class CricuitBreakerTest {
 		breaker.ignoreException(RuntimeException.class);
 		generateFaultsToOpen();
 		assertEquals(5, stocks.getQuote("JAVA"));
-		assertFalse(breaker.getCircuit().isOpen());
+		assertFalse(breaker.getCircuitInfo().isOpen());
 		breaker.removeIgnoredExcpetion(RuntimeException.class);
 	}
 	
 	private void generateFaultsToOpen() {
-		for (int i = 0; i < Circuit.DEFAULT_MAX_FAILURES; i++) {
+		for (int i = 0; i < CircuitInfo.DEFAULT_MAX_FAILURES; i++) {
 			try { stocks.faultyGetQuote("JAVA"); } catch (RuntimeException expected) { }
 		}
 	}

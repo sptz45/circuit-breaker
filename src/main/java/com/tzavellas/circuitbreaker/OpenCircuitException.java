@@ -5,31 +5,31 @@ package com.tzavellas.circuitbreaker;
  * open.
  * 
  * @see CircuitBreaker
- * @see Circuit
+ * @see CircuitInfo
  * 
  * @author spiros
  */
 public class OpenCircuitException extends RuntimeException {
 	
 	private static final long serialVersionUID = 1L;
-	private final transient Circuit circuit;
+	private final transient CircuitInfo circuit;
 	
 	/**
 	 * Create an OpenCircuitException.
 	 * 
-	 * @param c the {@code Circuit} that caused this exception.
+	 * @param c the {@code CircuitInfo} that caused this exception.
 	 */
-	public OpenCircuitException(Circuit c) {
+	public OpenCircuitException(CircuitInfo c) {
 		circuit = c;
 	}
 	
 	/**
-	 * Get the {@code Circuit} that is open and caused this
+	 * Get the {@code CircuitInfo} that is open and caused this
 	 * exception to be thrown.
 	 * 
-	 * @return the {@code Circuit} that caused this exception.
+	 * @return the {@code CircuitInfo} that caused this exception.
 	 */
-	public Circuit getCircuit() {
+	public CircuitInfo getCircuit() {
 		return circuit;
 	}
 

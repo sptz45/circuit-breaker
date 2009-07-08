@@ -20,8 +20,8 @@ import javax.annotation.PostConstruct;
  */
 public class CircuitConfiguratorBean {
 	
-	private long timeoutMillis = Circuit.DEFAULT_TIMEOUT;
-	private int maxFailures = Circuit.DEFAULT_MAX_FAILURES;
+	private long timeoutMillis = CircuitInfo.DEFAULT_TIMEOUT;
+	private int maxFailures = CircuitInfo.DEFAULT_MAX_FAILURES;
 	private Class<? extends CircuitBreaker> aspectClass;
 	private Object circuit;
 	
@@ -34,13 +34,13 @@ public class CircuitConfiguratorBean {
 	public void configure() throws Exception {
 		Method m = aspectClass.getMethod("aspectOf", Object.class);
 		CircuitBreaker cb = (CircuitBreaker) m.invoke(null, circuit);
-		Circuit c = cb.getCircuit();
+		CircuitInfo c = cb.getCircuitInfo();
 		c.setMaxFailures(maxFailures);
 		c.setTimeoutMillis(timeoutMillis);
 	}
 	
 	/**
-	 * Set the class of the Circuit Breaker aspect.
+	 * Set the class of the CircuitInfo Breaker aspect.
 	 */
 	public void setAspectClass(Class<? extends CircuitBreaker> aspectClass) {
 		this.aspectClass = aspectClass;

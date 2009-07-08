@@ -3,7 +3,7 @@ package com.tzavellas.circuitbreaker;
 import java.util.Date;
 
 /**
- * The MBean interface for Circuit objects to JMX.
+ * The MBean interface for CircuitInfo objects to JMX.
  * 
  * @author spiros
  */

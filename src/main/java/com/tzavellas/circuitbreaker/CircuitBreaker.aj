@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * Implements the Circuit Breaker stability design pattern.
+ * Implements the CircuitInfo Breaker stability design pattern.
  * 
  * <p>Each {@code CircuitBreaker} instance is associated with an instance of
  * a circuit object as defined by the {@code circuit()} pointcut.
@@ -23,7 +23,7 @@ public abstract aspect CircuitBreaker perthis(circuit()){
 	pointcut circuitInitialization(Object o) : circuit() && initialization(*.new(..)) && this(o);
 	
 	after(Object o) : circuitInitialization(o) {
-		circuit = new Circuit();
+		circuit = new CircuitInfo();
 		registrar = new CircuitJmxRegistrar(circuit, o.getClass().getSimpleName());
 		if (enableJmx)
 			registrar.register();
@@ -47,7 +47,7 @@ public abstract aspect CircuitBreaker perthis(circuit()){
 	
 	// -----------------------------------------------------------------------
 
-	private Circuit circuit;
+	private CircuitInfo circuit;
 	private CircuitJmxRegistrar registrar;
 	
 	private final Set<Class<? extends Throwable>> ignoredExceptions = new CopyOnWriteArraySet<Class<? extends Throwable>>();
@@ -58,7 +58,7 @@ public abstract aspect CircuitBreaker perthis(circuit()){
 	/**
 	 * Get the circuit of this circuit breaker.
 	 */
-	public Circuit getCircuit() {
+	public CircuitInfo getCircuitInfo() {
 		return circuit;
 	}
 	
