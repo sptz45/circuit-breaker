@@ -53,11 +53,9 @@ public class CircuitInfo implements CircuitInfoMBean {
 	
 	/** {@inheritDoc} */
 	public void open() {
-		boolean opened = openTimestamp.compareAndSet(0, System.currentTimeMillis());
-		if (opened) {
-			currentFailures.set(maxFailures);
-			stats.timesOpened.incrementAndGet();
-		}
+		openTimestamp.set(System.currentTimeMillis());	
+		currentFailures.set(maxFailures);
+		stats.timesOpened.incrementAndGet();
 	}
 	
 	/**

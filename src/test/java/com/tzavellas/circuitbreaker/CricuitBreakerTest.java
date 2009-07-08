@@ -48,6 +48,17 @@ public class CricuitBreakerTest {
 	}
 	
 	@Test
+	public void the_circuit_moves_from_half_open_to_open_on_first_failure() throws Exception {
+		CircuitInfo circuit = StockBreaker.aspectOf(stocks).getCircuitInfo(); 
+		circuit.setTimeoutMillis(1);
+		generateFaultsToOpen();
+		Thread.sleep(2);
+		assertTrue(circuit.isHalfOpen());
+		try { stocks.faultyGetQuote("JAVA"); } catch (RuntimeException expected) { }
+		assertTrue(circuit.isOpen());
+	}
+	
+	@Test
 	public void ignored_exceptions_do_not_open_a_circuit() {
 		StockBreaker breaker = StockBreaker.aspectOf(stocks);
 		breaker.ignoreException(RuntimeException.class);
