@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * A class that holds all the metadata about the state of a circuit.
  *
- * <p>Instances of this class are thread safe.</p>
+ * <p>Instances of this class are thread-safe.</p>
  * 
  * @see CircuitBreaker
  * @author spiros
@@ -22,7 +22,7 @@ public class CircuitInfo implements CircuitInfoMBean {
 	private final CircuitStatistics stats = new CircuitStatistics();
 	
 	private volatile int maxFailures = DEFAULT_MAX_FAILURES;
-	private volatile long timeout = DEFAULT_TIMEOUT; //XXX not thread-safe (non atomic update)
+	private AtomicLong timeout = new AtomicLong(DEFAULT_TIMEOUT);
 	
 	
 	/** {@inheritDoc} */
@@ -42,7 +42,7 @@ public class CircuitInfo implements CircuitInfoMBean {
 	
 	private boolean hasExpired() {
 		long timestampt = openTimestamp.get(); 
-		return timestampt != 0 && timestampt + timeout <= System.currentTimeMillis();
+		return timestampt != 0 && timestampt + timeout.get() <= System.currentTimeMillis();
 	}
 	
 	/** {@inheritDoc} */
@@ -111,11 +111,11 @@ public class CircuitInfo implements CircuitInfoMBean {
 
 	/** {@inheritDoc} */
 	public long getTimeoutMillis() {
-		return timeout;
+		return timeout.get();
 	}
 	/** {@inheritDoc} */
 	public void setTimeoutMillis(long millis) {
-		timeout = millis;
+		timeout.set(millis);
 	}
 	/** {@inheritDoc} */
 	public int getTimesOpened() {
