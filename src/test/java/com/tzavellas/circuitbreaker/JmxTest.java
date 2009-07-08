@@ -39,10 +39,10 @@ public class JmxTest {
 	private void testOpenCircuitViaJmx() throws Exception {
 		time.networkTime();
 		
-		CircuitMBean mbean = JMX.newMBeanProxy(
+		CircuitInfoMBean mbean = JMX.newMBeanProxy(
 				ManagementFactory.getPlatformMBeanServer(),
 				new ObjectName("com.tzavellas.circuitbreaker:type=CircuitInfo,target=TimeService"),
-				CircuitMBean.class);
+				CircuitInfoMBean.class);
 		
 		assertEquals(1, mbean.getCalls());
 		mbean.open();

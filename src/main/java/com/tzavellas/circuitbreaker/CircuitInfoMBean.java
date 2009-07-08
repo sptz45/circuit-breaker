@@ -7,7 +7,7 @@ import java.util.Date;
  * 
  * @author spiros
  */
-public interface CircuitMBean {
+public interface CircuitInfoMBean {
 
 	/**
 	 * Test whether the circuit is closed.
