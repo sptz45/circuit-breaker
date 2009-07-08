@@ -22,6 +22,7 @@ public class CircuitConfiguratorBean {
 	
 	private long timeoutMillis = CircuitInfo.DEFAULT_TIMEOUT;
 	private int maxFailures = CircuitInfo.DEFAULT_MAX_FAILURES;
+	private Duration currentFailuresDuration = CircuitInfo.DEFAULT_CURRENT_FAILURES_DURATION;
 	private Class<? extends CircuitBreaker> aspectClass;
 	private Object circuit;
 	
@@ -37,6 +38,7 @@ public class CircuitConfiguratorBean {
 		CircuitInfo c = cb.getCircuitInfo();
 		c.setMaxFailures(maxFailures);
 		c.setTimeoutMillis(timeoutMillis);
+		c.setCurrentFailuresDuration(currentFailuresDuration);
 	}
 	
 	/**
@@ -67,5 +69,16 @@ public class CircuitConfiguratorBean {
 	 */
 	public void setMaxFailures(int maxFailures) {
 		this.maxFailures = maxFailures;
+	}
+	
+	/**
+	 * Specify the duration after which the number of failures track by
+	 * the circuit breaker gets reset. 
+	 * 
+	 * @param duration the duratin, default is 1 hour.
+	 * @see Duration.Editor
+	 */
+	public void setCurrentFailuresDuration(Duration d) {
+		currentFailuresDuration = d;
 	}
 }

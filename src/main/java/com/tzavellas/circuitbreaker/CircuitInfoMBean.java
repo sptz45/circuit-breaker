@@ -72,6 +72,14 @@ public interface CircuitInfoMBean {
 	void setTimeoutMillis(long millis);
 	
 	/**
+	 * Specify the duration after which the number of failures track by
+	 * the circuit breaker gets reset. 
+	 * 
+	 * @param duration a string representing a {@code Duration} object.
+	 */
+	void setCurrentFailuresDuration(String duration);
+	
+	/**
 	 * Open the circuit, causing any subsequent calls made through the
 	 * circuit to stop throwing an OpenCircuitException.
 	 */

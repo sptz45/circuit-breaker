@@ -16,13 +16,16 @@ public class CircuitInfo implements CircuitInfoMBean {
 	
 	public static final int DEFAULT_MAX_FAILURES = 5;
 	public static final long DEFAULT_TIMEOUT = 10 * 60 * 1000; // 10min
+	public static final Duration DEFAULT_CURRENT_FAILURES_DURATION = Duration.hours(1);
 	
 	private final AtomicInteger currentFailures = new AtomicInteger();
+	private final AtomicLong firstCurrentFailureTimestamp = new AtomicLong();
 	private final AtomicLong openTimestamp = new AtomicLong();
 	private final CircuitStatistics stats = new CircuitStatistics();
 	
 	private volatile int maxFailures = DEFAULT_MAX_FAILURES;
 	private AtomicLong timeout = new AtomicLong(DEFAULT_TIMEOUT);
+	private volatile Duration currentFailuresDuration = DEFAULT_CURRENT_FAILURES_DURATION;
 	
 	
 	/** {@inheritDoc} */
@@ -59,14 +62,29 @@ public class CircuitInfo implements CircuitInfoMBean {
 	}
 	
 	/**
-	 * Record that a call to the circuit failed.
+	 * Record that a call to the wrapped object failed.
 	 */
 	public void recordFailure() {
-		int cf = currentFailures.incrementAndGet();
-		if (cf >= maxFailures) {
-			open();
+		initFirstFailureTimeStampIfNeeded();
+		int tmpCurrentFailures = 0;
+		if (currentFailuresDuration.hasPastSince(System.nanoTime())) {
+			resetFailures();
+			tmpCurrentFailures = 1;
+		} else {
+			tmpCurrentFailures = currentFailures.incrementAndGet();
 		}
+		if (tmpCurrentFailures >= maxFailures)
+				open();
 		stats.failures.incrementAndGet();
+	}
+	
+	private void resetFailures() {
+		currentFailures.set(1);
+		firstCurrentFailureTimestamp.set(System.nanoTime());
+	}
+	
+	private void initFirstFailureTimeStampIfNeeded() {
+		firstCurrentFailureTimestamp.compareAndSet(0, System.nanoTime());
 	}
 	
 	/**
@@ -118,6 +136,19 @@ public class CircuitInfo implements CircuitInfoMBean {
 	/** {@inheritDoc} */
 	public int getTimesOpened() {
 		return stats.timesOpened.get();
+	}
+	/** {@inheritDoc} */
+	public void setCurrentFailuresDuration(String duration) {
+		currentFailuresDuration = Duration.valueOf(duration);
+	}
+	/**
+	 * Specify the duration after which the number of failures track by
+	 * the circuit breaker gets reset. 
+	 * 
+	 * @param duration the duratin, default is 1 hour.
+	 */
+	public void setCurrentFailuresDuration(Duration d) {
+		currentFailuresDuration = d;
 	}
 }
 

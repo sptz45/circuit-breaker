@@ -59,6 +59,15 @@ public class CricuitBreakerTest {
 	}
 	
 	@Test
+	public void the_failure_count_gets_reset_after_an_amount_of_time() {
+		StockBreaker breaker = StockBreaker.aspectOf(stocks);
+		breaker.getCircuitInfo().setCurrentFailuresDuration(Duration.nanos(1));
+		generateFaultsToOpen();
+		assertEquals(5, stocks.getQuote("JAVA"));
+		assertFalse(breaker.getCircuitInfo().isOpen());
+	}
+	
+	@Test
 	public void ignored_exceptions_do_not_open_a_circuit() {
 		StockBreaker breaker = StockBreaker.aspectOf(stocks);
 		breaker.ignoreException(RuntimeException.class);

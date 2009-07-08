@@ -36,7 +36,6 @@ public class CircuitConfigurationTest {
 			fail("The circuit must be open!");
 		} catch(OpenCircuitException expected) { }
 	}
-	
 
 	@Test
 	public void change_timeout_and_test() throws Exception {
@@ -44,6 +43,14 @@ public class CircuitConfigurationTest {
 		configurator.configure();
 		generateFaults(CircuitInfo.DEFAULT_MAX_FAILURES);
 		Thread.sleep(5);
+		assertEquals(TimeService.EXPECTED, time.networkTime());
+	}
+	
+	@Test
+	public void change_failure_duration_and_test() throws Exception {
+		configurator.setCurrentFailuresDuration(Duration.nanos(1));
+		configurator.configure();
+		generateFaults(CircuitInfo.DEFAULT_MAX_FAILURES);
 		assertEquals(TimeService.EXPECTED, time.networkTime());
 	}
 	
