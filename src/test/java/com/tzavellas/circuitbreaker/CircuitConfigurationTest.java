@@ -2,6 +2,9 @@ package com.tzavellas.circuitbreaker;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,6 +55,21 @@ public class CircuitConfigurationTest {
 		configurator.configure();
 		generateFaults(CircuitInfo.DEFAULT_MAX_FAILURES);
 		assertEquals(TimeService.EXPECTED, time.networkTime());
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void fail_fast_with_wrong_aspect_class_via_reflection() throws Throwable {
+		Method classSetter = configurator.getClass().getMethod("setAspectClass", Class.class);
+		try {
+			classSetter.invoke(configurator, String.class);
+		} catch (InvocationTargetException e) {
+			throw e.getCause();
+		}
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void fail_fast_with_object_that_has_no_aspect_bound() {
+		configurator.setCircuit("I don't have a CircuitBreaker aspect bound on me");
 	}
 	
 	private void generateFaults(int failures) {

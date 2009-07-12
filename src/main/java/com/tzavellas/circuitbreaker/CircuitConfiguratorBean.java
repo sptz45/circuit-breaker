@@ -1,5 +1,6 @@
 package com.tzavellas.circuitbreaker;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import javax.annotation.PostConstruct;
@@ -23,8 +24,9 @@ public class CircuitConfiguratorBean {
 	private long timeoutMillis = CircuitInfo.DEFAULT_TIMEOUT;
 	private int maxFailures = CircuitInfo.DEFAULT_MAX_FAILURES;
 	private Duration currentFailuresDuration = CircuitInfo.DEFAULT_CURRENT_FAILURES_DURATION;
-	private Class<? extends CircuitBreaker> aspectClass;
-	private Object circuit;
+	
+	private Method aspectOf;
+	private CircuitInfo circuitInfo;
 	
 	/**
 	 * Apply the configuration to the circuit breaker aspect.
@@ -33,19 +35,22 @@ public class CircuitConfiguratorBean {
 	 */
 	@PostConstruct
 	public void configure() throws Exception {
-		Method m = aspectClass.getMethod("aspectOf", Object.class);
-		CircuitBreaker cb = (CircuitBreaker) m.invoke(null, circuit);
-		CircuitInfo c = cb.getCircuitInfo();
-		c.setMaxFailures(maxFailures);
-		c.setTimeoutMillis(timeoutMillis);
-		c.setCurrentFailuresDuration(currentFailuresDuration);
+		circuitInfo.setMaxFailures(maxFailures);
+		circuitInfo.setTimeoutMillis(timeoutMillis);
+		circuitInfo.setCurrentFailuresDuration(currentFailuresDuration);
 	}
 	
 	/**
 	 * Set the class of the CircuitInfo Breaker aspect.
 	 */
 	public void setAspectClass(Class<? extends CircuitBreaker> aspectClass) {
-		this.aspectClass = aspectClass;
+		try {
+			aspectOf = aspectClass.getMethod("aspectOf", Object.class);
+		} catch (SecurityException e) {
+			throw new IllegalArgumentException("Wrong aspect class! Could not access static method with signature aspectOf(Object)");
+		} catch (NoSuchMethodException e) {
+			throw new IllegalArgumentException("Wrong aspect class! There is no static method with signature aspectOf(Object)");
+		}
 	}
 	
 	/**
@@ -53,7 +58,13 @@ public class CircuitConfiguratorBean {
 	 * pointcut).
 	 */
 	public void setCircuit(Object circuit) {
-		this.circuit = circuit;
+		try {
+			circuitInfo = ((CircuitBreaker) aspectOf.invoke(null, circuit)).getCircuitInfo();
+		} catch (InvocationTargetException e) {
+			throw new IllegalArgumentException("The specified object has no CircuitBreaker aspect bound!", e);
+		} catch (Exception e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 	
 	/**
