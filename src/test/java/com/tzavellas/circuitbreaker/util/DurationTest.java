@@ -1,4 +1,4 @@
-package com.tzavellas.circuitbreaker;
+package com.tzavellas.circuitbreaker.util;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,8 @@ import java.beans.PropertyEditor;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
+
+import com.tzavellas.circuitbreaker.util.Duration;
 
 public class DurationTest {
 	

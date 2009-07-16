@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.tzavellas.circuitbreaker.util.Duration;
+
 /**
  * A class that holds all the metadata about the state of a circuit.
  *

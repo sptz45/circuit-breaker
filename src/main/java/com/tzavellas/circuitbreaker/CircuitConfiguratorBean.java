@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 
 import javax.annotation.PostConstruct;
 
+import com.tzavellas.circuitbreaker.util.Duration;
+
 /**
  * A class to configure individual instances of the {@code CircuitBreaker} aspect.
  * 

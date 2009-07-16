@@ -1,4 +1,4 @@
-package com.tzavellas.circuitbreaker;
+package com.tzavellas.circuitbreaker.util;
 
 import java.beans.PropertyEditorSupport;
 import java.util.Scanner;
