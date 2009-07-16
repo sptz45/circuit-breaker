@@ -3,8 +3,6 @@ package com.tzavellas.circuitbreaker.aspectj;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import javax.annotation.PostConstruct;
-
 import com.tzavellas.circuitbreaker.CircuitBreaker;
 import com.tzavellas.circuitbreaker.CircuitInfo;
 import com.tzavellas.circuitbreaker.support.AbstractCircuitConfiguration;
