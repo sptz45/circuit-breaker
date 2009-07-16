@@ -1,10 +1,13 @@
-package com.tzavellas.circuitbreaker;
+package com.tzavellas.circuitbreaker.support;
 
 import java.lang.management.ManagementFactory;
 
 import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
+
+import com.tzavellas.circuitbreaker.CircuitBreaker;
+import com.tzavellas.circuitbreaker.CircuitInfo;
 
 /**
  * A class that knows how to register and unregister {@code CircuitInfo}

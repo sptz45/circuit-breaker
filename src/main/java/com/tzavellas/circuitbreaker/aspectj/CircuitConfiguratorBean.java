@@ -1,11 +1,13 @@
-package com.tzavellas.circuitbreaker;
+package com.tzavellas.circuitbreaker.aspectj;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import javax.annotation.PostConstruct;
 
-import com.tzavellas.circuitbreaker.util.Duration;
+import com.tzavellas.circuitbreaker.CircuitBreaker;
+import com.tzavellas.circuitbreaker.CircuitInfo;
+import com.tzavellas.circuitbreaker.support.AbstractCircuitConfiguration;
 
 /**
  * A class to configure individual instances of the {@code CircuitBreaker} aspect.
@@ -21,25 +23,14 @@ import com.tzavellas.circuitbreaker.util.Duration;
  * 
  * @author spiros
  */
-public class CircuitConfiguratorBean {
-	
-	private long timeoutMillis = CircuitInfo.DEFAULT_TIMEOUT;
-	private int maxFailures = CircuitInfo.DEFAULT_MAX_FAILURES;
-	private Duration currentFailuresDuration = CircuitInfo.DEFAULT_CURRENT_FAILURES_DURATION;
+public class CircuitConfiguratorBean extends AbstractCircuitConfiguration {
 	
 	private Method aspectOf;
 	private CircuitInfo circuitInfo;
 	
-	/**
-	 * Apply the configuration to the circuit breaker aspect.
-	 * 
-	 * @throws Exception if something goes wrong.
-	 */
-	@PostConstruct
-	public void configure() throws Exception {
-		circuitInfo.setMaxFailures(maxFailures);
-		circuitInfo.setTimeoutMillis(timeoutMillis);
-		circuitInfo.setCurrentFailuresDuration(currentFailuresDuration);
+	@Override
+	public CircuitInfo getCircuitInfo() {
+		return circuitInfo;
 	}
 	
 	/**
@@ -67,31 +58,5 @@ public class CircuitConfiguratorBean {
 		} catch (Exception e) {
 			throw new IllegalArgumentException(e);
 		}
-	}
-	
-	/**
-	 * Set the timeout in milliseconds before the circuit closes again.
-	 */
-	public void setTimeoutMillis(long timeoutMillis) {
-		this.timeoutMillis = timeoutMillis;
-	}
-	
-	/**
-	 * Set the maximum number of failures that must occur before the
-	 * circuit opens. 
-	 */
-	public void setMaxFailures(int maxFailures) {
-		this.maxFailures = maxFailures;
-	}
-	
-	/**
-	 * Specify the duration after which the number of failures track by
-	 * the circuit breaker gets reset. 
-	 * 
-	 * @param duration the duratin, default is 1 hour.
-	 * @see Duration.Editor
-	 */
-	public void setCurrentFailuresDuration(Duration d) {
-		currentFailuresDuration = d;
 	}
 }

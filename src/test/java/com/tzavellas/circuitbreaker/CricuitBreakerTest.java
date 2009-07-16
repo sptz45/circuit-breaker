@@ -13,7 +13,7 @@ public class CricuitBreakerTest {
 	StockService stocks = new StockService();
 	
 	@Test
-	public void normal_operation_during_closed() {
+	public void normal_operation_while_closed() {
 		assertEquals(5, stocks.getQuote("JAVA"));
 	}
 	

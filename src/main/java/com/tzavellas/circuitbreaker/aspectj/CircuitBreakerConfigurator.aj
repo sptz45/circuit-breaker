@@ -1,4 +1,6 @@
-package com.tzavellas.circuitbreaker;
+package com.tzavellas.circuitbreaker.aspectj;
+
+import com.tzavellas.circuitbreaker.CircuitBreaker;
 
 /**
  * An aspect that applies default configuration to all {@code CircuitBreaker}

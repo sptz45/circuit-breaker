@@ -10,6 +10,7 @@ import javax.management.ObjectName;
 import org.junit.After;
 import org.junit.Test;
 
+import com.tzavellas.circuitbreaker.aspectj.CircuitBreakerConfigurator;
 import com.tzavellas.test.TimeService;
 
 public class JmxTest {
