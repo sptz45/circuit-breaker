@@ -1,4 +1,4 @@
-package com.tzavellas.circuitbreaker;
+package com.tzavellas.circuitbreaker.aspectj;
 
 import static org.junit.Assert.*;
 import org.junit.Test;

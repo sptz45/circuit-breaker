@@ -1,4 +1,4 @@
-package com.tzavellas.circuitbreaker;
+package com.tzavellas.circuitbreaker.aspectj;
 
 import static org.junit.Assert.*;
 
@@ -8,6 +8,8 @@ import java.lang.reflect.Method;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.tzavellas.circuitbreaker.CircuitInfo;
+import com.tzavellas.circuitbreaker.OpenCircuitException;
 import com.tzavellas.circuitbreaker.aspectj.CircuitConfiguratorBean;
 import com.tzavellas.circuitbreaker.util.Duration;
 import com.tzavellas.test.TimeService;

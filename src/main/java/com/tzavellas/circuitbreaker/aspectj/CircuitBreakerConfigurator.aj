@@ -1,7 +1,5 @@
 package com.tzavellas.circuitbreaker.aspectj;
 
-import com.tzavellas.circuitbreaker.CircuitBreaker;
-
 /**
  * An aspect that applies default configuration to all {@code CircuitBreaker}
  * aspects as soon as they are instantiated.

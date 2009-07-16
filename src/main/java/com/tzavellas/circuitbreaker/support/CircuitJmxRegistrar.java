@@ -6,7 +6,6 @@ import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
-import com.tzavellas.circuitbreaker.CircuitBreaker;
 import com.tzavellas.circuitbreaker.CircuitInfo;
 
 /**

@@ -1,4 +1,4 @@
-package com.tzavellas.circuitbreaker;
+package com.tzavellas.circuitbreaker.aspectj;
 
 import com.tzavellas.circuitbreaker.support.CircuitBreakerAspectSupport;
 
@@ -30,7 +30,7 @@ import com.tzavellas.circuitbreaker.support.CircuitBreakerAspectSupport;
 public abstract aspect CircuitBreaker extends CircuitBreakerAspectSupport perthis(circuit()) {
 	
 	/** A pointcut to specify the circuit object. */
-	abstract pointcut circuit();
+	public abstract pointcut circuit();
 	
 	/** A public method execution of a circuit object. */
 	pointcut circuitExecution() : circuit() && execution(public * *(..));
