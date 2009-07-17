@@ -5,5 +5,5 @@ import com.tzavellas.circuitbreaker.aspectj.CircuitBreaker;;
 
 public aspect IntegrationPointBreaker extends CircuitBreaker {
 	
-	public pointcut circuit(): within(@IntegrationPoint com.tzavellas.test.*);
+	public pointcut circuit(): within(@IntegrationPoint com.tzavellas.test.aj.*);
 }

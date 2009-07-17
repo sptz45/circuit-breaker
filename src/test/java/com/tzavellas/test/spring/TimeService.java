@@ -1,12 +1,10 @@
-package com.tzavellas.test;
+package com.tzavellas.test.spring;
 
 import java.util.Date;
+import com.tzavellas.test.ITimeService;
 
-@IntegrationPoint
-public class TimeService {
+public class TimeService implements ITimeService {
 
-	public static final Date EXPECTED = new Date(); 
-	
 	public Date networkTime() {
 		return EXPECTED;
 	}

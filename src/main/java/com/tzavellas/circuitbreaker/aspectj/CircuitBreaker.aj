@@ -38,8 +38,15 @@ public abstract aspect CircuitBreaker extends CircuitBreakerAspectSupport perthi
 	/** An instantiation of a circuit object. */
 	pointcut circuitInitialization(Object o) : circuit() && initialization(*.new(..)) && this(o);
 	
+	// This is needded because initialization() can match multiple constructor
+	// call when intializing objects that use inheritence. 
+	private boolean needsInitialization = true;
+	
 	after(Object o) : circuitInitialization(o) {
-		onTargetInitialization(o);
+		if (needsInitialization) {
+			onTargetInitialization(o);
+			needsInitialization = false;
+		}
 	}
 
 	before() : circuitExecution() {

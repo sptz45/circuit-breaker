@@ -17,7 +17,7 @@ import com.tzavellas.circuitbreaker.CircuitInfo;
  * where targetName is the simple name of the class of the circuit (defined
  * by the circuit() pointcut). 
  * 
- * @see CircuitBreaker
+ * @see CircuitBreakerTest
  * @see CircuitInfo
  * 
  * @author spiros

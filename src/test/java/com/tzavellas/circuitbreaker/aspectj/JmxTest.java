@@ -1,23 +1,13 @@
 package com.tzavellas.circuitbreaker.aspectj;
 
-import static org.junit.Assert.*;
-
-import java.lang.management.ManagementFactory;
-
-import javax.management.JMX;
-import javax.management.ObjectName;
-
 import org.junit.After;
 import org.junit.Test;
 
-import com.tzavellas.circuitbreaker.CircuitInfoMBean;
+import com.tzavellas.circuitbreaker.AbstractJmxTest;
 import com.tzavellas.circuitbreaker.OpenCircuitException;
-import com.tzavellas.circuitbreaker.aspectj.CircuitBreakerConfigurator;
-import com.tzavellas.test.TimeService;
+import com.tzavellas.test.aj.TimeService;
 
-public class JmxTest {
-	
-	TimeService time ;
+public class JmxTest extends AbstractJmxTest {
 	
 	@After
 	public void disableJmx() {
@@ -26,7 +16,7 @@ public class JmxTest {
 	}
 	
 	@Test(expected=OpenCircuitException.class)
-	public void enable_jmx_via_configurator() throws Exception {		
+	public void enable_jmx_via_configurator() throws Exception {
 		CircuitBreakerConfigurator.aspectOf().setEnableJmx(true);
 		time = new TimeService();
 		testOpenCircuitViaJmx();
@@ -37,18 +27,5 @@ public class JmxTest {
 		time = new TimeService();
 		IntegrationPointBreaker.aspectOf(time).setEnableJmx(true);
 		testOpenCircuitViaJmx();
-	}
-	
-	private void testOpenCircuitViaJmx() throws Exception {
-		time.networkTime();
-		
-		CircuitInfoMBean mbean = JMX.newMBeanProxy(
-				ManagementFactory.getPlatformMBeanServer(),
-				new ObjectName("com.tzavellas.circuitbreaker:type=CircuitInfo,target=TimeService"),
-				CircuitInfoMBean.class);
-		
-		assertEquals(1, mbean.getCalls());
-		mbean.open();
-		time.networkTime();
 	}
 }

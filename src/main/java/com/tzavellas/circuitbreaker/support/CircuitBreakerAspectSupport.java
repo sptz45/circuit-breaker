@@ -15,6 +15,8 @@ public class CircuitBreakerAspectSupport {
 	protected boolean enableJmx = false;
 	
 	
+	// -----------------------------------------------------------------------------
+	
 	protected void onTargetInitialization(Object target) {
 		registrar = new CircuitJmxRegistrar(circuit, target.getClass().getSimpleName());
 		if (enableJmx)
@@ -40,6 +42,7 @@ public class CircuitBreakerAspectSupport {
 			}
 		}
 	}
+	
 	
 	// -----------------------------------------------------------------------------
 	
