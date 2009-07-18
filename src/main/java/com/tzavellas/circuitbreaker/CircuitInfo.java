@@ -69,7 +69,7 @@ public class CircuitInfo implements CircuitInfoMBean {
 	public void recordFailure() {
 		initFirstFailureTimeStampIfNeeded();
 		int tmpCurrentFailures = 0;
-		if (currentFailuresDuration.hasPastSince(System.nanoTime())) {
+		if (currentFailuresDuration.hasPastSince(firstCurrentFailureTimestamp.get())) {
 			resetFailures();
 			tmpCurrentFailures = 1;
 		} else {

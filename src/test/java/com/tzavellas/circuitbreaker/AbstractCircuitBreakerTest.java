@@ -73,7 +73,21 @@ public abstract class AbstractCircuitBreakerTest {
 	}
 	
 	@Test
-	public void the_failure_count_gets_reset_after_an_amount_of_time() {
+	public void the_failure_count_gets_reset_after_an_amount_of_time() throws Exception {
+		CircuitInfo circuit = stocksBreaker.getCircuitInfo();
+		circuit.setCurrentFailuresDuration(Duration.millis(1));
+		
+		generateFaults(CircuitInfo.DEFAULT_MAX_FAILURES - 1);
+		assertFalse(circuit.isOpen());
+		Thread.sleep(5);
+		
+		generateFaults(1);
+		assertFalse(circuit.isOpen());
+		assertEquals(5, stocks.getQuote("JAVA"));
+	}
+	
+	@Test
+	public void almost_instant_failure_count_reset() {
 		CircuitInfo circuit = stocksBreaker.getCircuitInfo();
 		circuit.setCurrentFailuresDuration(Duration.nanos(1));
 		generateFaultsToOpen();
@@ -91,7 +105,11 @@ public abstract class AbstractCircuitBreakerTest {
 	}
 	
 	protected void generateFaultsToOpen() {
-		for (int i = 0; i < CircuitInfo.DEFAULT_MAX_FAILURES; i++) {
+		generateFaults(CircuitInfo.DEFAULT_MAX_FAILURES);
+	}
+	
+	protected void generateFaults(int numOfFaults) {
+		for (int i = 0; i < numOfFaults; i++) {
 			try { stocks.faultyGetQuote("JAVA"); } catch (RuntimeException expected) { }
 		}
 	}

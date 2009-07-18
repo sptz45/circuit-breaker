@@ -1,13 +1,8 @@
 package com.tzavellas.circuitbreaker.spring;
 
-import javax.annotation.PostConstruct;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 
-import com.tzavellas.circuitbreaker.CircuitInfo;
-import com.tzavellas.circuitbreaker.support.AbstractCircuitConfiguration;
 import com.tzavellas.circuitbreaker.support.CircuitBreakerAspectSupport;
-import com.tzavellas.circuitbreaker.support.CircuitConfiguration;
 import com.tzavellas.circuitbreaker.util.Duration;
 
 /**
@@ -18,14 +13,10 @@ import com.tzavellas.circuitbreaker.util.Duration;
  * @author spiros
  *
  */
-public class CircuitBreaker extends CircuitBreakerAspectSupport implements CircuitConfiguration {
+public class CircuitBreaker extends CircuitBreakerAspectSupport {
 
 	private volatile boolean needsInitialization = true;
-	private SimpleCircuitConfiguration config;
-	
-	public CircuitBreaker() {
-		config = new SimpleCircuitConfiguration(circuit);
-	}
+
 	
 	public Object execute(ProceedingJoinPoint pjp) throws Throwable {
 		if (needsInitialization) {
@@ -50,23 +41,13 @@ public class CircuitBreaker extends CircuitBreakerAspectSupport implements Circu
 		}
 	}
 	
-	@PostConstruct
-	public void configure() throws Exception {
-		config.configure();
-	}
-	public void setCurrentFailuresDuration(Duration d) {
-		config.setCurrentFailuresDuration(d);
-	}
 	public void setMaxFailures(int maxFailures) {
-		config.setMaxFailures(maxFailures);
+		getCircuitInfo().setMaxFailures(maxFailures);
 	}
 	public void setTimeoutMillis(long timeoutMillis) {
-		config.setTimeoutMillis(timeoutMillis);
+		getCircuitInfo().setTimeoutMillis(timeoutMillis);
 	}
-}
-
-class SimpleCircuitConfiguration extends AbstractCircuitConfiguration {	
-	private CircuitInfo circuitInfo;
-	SimpleCircuitConfiguration(CircuitInfo ci) { circuitInfo = ci; }
-	public CircuitInfo getCircuitInfo() { return circuitInfo; }
+	public void setCurrentFailuresDuration(Duration d) {
+		getCircuitInfo().setCurrentFailuresDuration(d);
+	}
 }
