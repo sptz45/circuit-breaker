@@ -1,8 +1,6 @@
 package com.tzavellas.circuitbreaker;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -13,8 +11,8 @@ import com.tzavellas.test.IStockService;
 public abstract class AbstractCircuitBreakerTest {
 
 	protected IStockService stocks;
+	protected CircuitBreakerAspectSupport stocksBreaker;
 	
-	protected abstract CircuitBreakerAspectSupport getCircuitBreaker();
 	
 	@Test
 	public void normal_operation_while_closed() {
@@ -38,12 +36,14 @@ public abstract class AbstractCircuitBreakerTest {
 			c.close();
 			assertFalse(c.isOpen());
 			assertEquals(5, stocks.getQuote("JAVA"));
+			return;
 		}
+		fail("Should have raised an OpenCircuitException");
 	}
 	
 	@Test
 	public void the_circuit_is_half_open_after_the_timeout() throws Exception {
-		CircuitInfo circuit = getCircuitBreaker().getCircuitInfo(); 
+		CircuitInfo circuit = stocksBreaker.getCircuitInfo(); 
 		circuit.setTimeoutMillis(1);
 		generateFaultsToOpen();
 		Thread.sleep(2);
@@ -54,7 +54,7 @@ public abstract class AbstractCircuitBreakerTest {
 	
 	@Test
 	public void the_circuit_moves_from_half_open_to_open_on_first_failure() throws Exception {
-		CircuitInfo circuit = getCircuitBreaker().getCircuitInfo(); 
+		CircuitInfo circuit = stocksBreaker.getCircuitInfo(); 
 		circuit.setTimeoutMillis(1);
 		generateFaultsToOpen();
 		Thread.sleep(2);
@@ -65,7 +65,7 @@ public abstract class AbstractCircuitBreakerTest {
 	
 	@Test
 	public void the_failure_count_gets_reset_after_an_amount_of_time() {
-		CircuitInfo circuit = getCircuitBreaker().getCircuitInfo();
+		CircuitInfo circuit = stocksBreaker.getCircuitInfo();
 		circuit.setCurrentFailuresDuration(Duration.nanos(1));
 		generateFaultsToOpen();
 		assertEquals(5, stocks.getQuote("JAVA"));
@@ -74,12 +74,11 @@ public abstract class AbstractCircuitBreakerTest {
 	
 	@Test
 	public void ignored_exceptions_do_not_open_a_circuit() {
-		CircuitBreakerAspectSupport breaker = getCircuitBreaker();
-		breaker.ignoreException(RuntimeException.class);
+		stocksBreaker.ignoreException(RuntimeException.class);
 		generateFaultsToOpen();
 		assertEquals(5, stocks.getQuote("JAVA"));
-		assertFalse(breaker.getCircuitInfo().isOpen());
-		breaker.removeIgnoredExcpetion(RuntimeException.class);
+		assertFalse(stocksBreaker.getCircuitInfo().isOpen());
+		stocksBreaker.removeIgnoredExcpetion(RuntimeException.class);
 	}
 	
 	protected void generateFaultsToOpen() {

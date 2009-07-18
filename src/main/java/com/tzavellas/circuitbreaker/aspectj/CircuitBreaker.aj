@@ -1,5 +1,6 @@
 package com.tzavellas.circuitbreaker.aspectj;
 
+import com.tzavellas.circuitbreaker.OpenCircuitException;
 import com.tzavellas.circuitbreaker.support.CircuitBreakerAspectSupport;
 
 
@@ -39,7 +40,7 @@ public abstract aspect CircuitBreaker extends CircuitBreakerAspectSupport perthi
 	pointcut circuitInitialization(Object o) : circuit() && initialization(*.new(..)) && this(o);
 	
 	// This is needded because initialization() can match multiple constructor
-	// call when intializing objects that use inheritence. 
+	// calls when intializing objects that use inheritence. 
 	private boolean needsInitialization = true;
 	
 	after(Object o) : circuitInitialization(o) {
@@ -58,6 +59,7 @@ public abstract aspect CircuitBreaker extends CircuitBreakerAspectSupport perthi
 	}
 	
 	after() throwing(Throwable e) : circuitExecution() {
-		recordFailureAndIfHalfOpenThenOpen(e);
+		if (! (e instanceof OpenCircuitException))
+			recordFailureAndIfHalfOpenThenOpen(e);
 	}	
 }
