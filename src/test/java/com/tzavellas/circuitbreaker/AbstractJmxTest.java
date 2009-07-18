@@ -1,6 +1,6 @@
 package com.tzavellas.circuitbreaker;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.lang.management.ManagementFactory;
 
@@ -24,7 +24,7 @@ public abstract class AbstractJmxTest {
 				new ObjectName("com.tzavellas.circuitbreaker:type=CircuitInfo,target=TimeService"),
 				CircuitInfoMBean.class);
 		
-		assertEquals(1, mbean.getCalls());
+		assertTrue(mbean.getCalls() >= 1);
 		mbean.open();
 		time.networkTime();
 	}

@@ -1,5 +1,7 @@
 package com.tzavellas.circuitbreaker.spring;
 
+import java.util.Set;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 
 import com.tzavellas.circuitbreaker.support.CircuitBreakerAspectSupport;
@@ -49,5 +51,10 @@ public class CircuitBreaker extends CircuitBreakerAspectSupport {
 	}
 	public void setCurrentFailuresDuration(Duration d) {
 		getCircuitInfo().setCurrentFailuresDuration(d);
+	}
+	
+	public void setIgnoredExceptions(Set<Class<? extends Throwable>> ignored) {
+		ignoredExceptions.clear();
+		ignoredExceptions.addAll(ignored);
 	}
 }
