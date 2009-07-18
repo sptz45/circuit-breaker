@@ -31,6 +31,7 @@ public class CircuitConfiguratorBean implements CircuitConfiguration {
 	
 	private Method aspectOf;
 	private CircuitInfo circuitInfo;
+		
 	
 	@PostConstruct
 	public void configure() throws Exception {

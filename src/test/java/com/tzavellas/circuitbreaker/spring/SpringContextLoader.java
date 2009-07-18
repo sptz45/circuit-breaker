@@ -4,5 +4,5 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class SpringContextLoader {
-	static AbstractApplicationContext context = new ClassPathXmlApplicationContext("/circuit-breaker.xml");
+	static AbstractApplicationContext context = new ClassPathXmlApplicationContext("/spring-impl-context.xml");
 }

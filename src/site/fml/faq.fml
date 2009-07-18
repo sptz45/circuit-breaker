@@ -12,7 +12,7 @@
         </p>
         <p>
           In order to use the circuit breaker you have to extend the 
-          <tt>com.tzavellas.circuitbreaker.CircuitBreaker</tt> aspect 
+          <tt>com.tzavellas.circuitbreaker.aspectj.CircuitBreaker</tt> aspect 
           and define the <tt>circuit()</tt> abstract pointcut. This pointcut
           defines the objects that the CircuitBreaker aspect will get applied to.
           Please note that if you are using load time weaving you can avoid
@@ -72,10 +72,10 @@ public aspect IntegrationPointBreaker extends CircuitBreaker {
       <answer>
         <p>
           To configure the circuit breaker of a bean with id "myIntegrationPoint"
-          that has the "com.example.MyCircuitBreaker" (subclass of  com.tzavellas.circuitbreaker.CircuitBreaker) aspect applied to use the following
+          that has the "com.example.MyCircuitBreaker" (subclass of  com.tzavellas.circuitbreaker.aspectj.CircuitBreaker) aspect applied to use the following
           Spring bean definition:
           <source>
-&lt;bean class="com.tzavellas.circuitbreaker.CircuitConfiguratorBean"&gt;
+&lt;bean class="com.tzavellas.circuitbreaker.aspectj.CircuitConfiguratorBean"&gt;
   &lt;property name="aspectClass" value="com.example.MyCircuitBreaker"/&gt;
   &lt;property name="circuit" ref="myIntegrationPoint"/&gt;
   &lt;property name="maxFailures" value="10"/&gt;
@@ -86,7 +86,7 @@ public aspect IntegrationPointBreaker extends CircuitBreaker {
         <p>
           To enable JMX for all circuit breakers via Spring use:
           <source>
-&lt;bean class="com.tzavellas.circuitbreaker.CircuitBreakerConfigurator" factory-method="aspectOf"&gt;
+&lt;bean class="com.tzavellas.circuitbreaker.aspectj.CircuitBreakerConfigurator" factory-method="aspectOf"&gt;
   &lt;property name="enableJmx" value="true"/&gt;
 &lt;/bean&gt;
           </source>

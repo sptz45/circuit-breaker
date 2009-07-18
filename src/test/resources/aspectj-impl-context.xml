@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">	
+	
+	<context:annotation-config/>
+	
+	<!--
+	     ==> The order of beans is important!
+	     - The configurator must be instantiated before the circuit breaker aspect
+	       (IntegrationPointBreaker) which is instantiated via aspectj right after TimeService.
+	     - The CircuitConfiguratorBean must be instantiated after the IntegrationPointBreaker aspect.
+	 -->
+	
+	<bean class="com.tzavellas.circuitbreaker.aspectj.CircuitBreakerConfigurator" factory-method="aspectOf">
+		<property name="enableJmx" value="true"/>
+	</bean>
+	
+	<bean id="timeService" class="com.tzavellas.test.aj.TimeService"/>
+	
+	<bean class="com.tzavellas.circuitbreaker.aspectj.CircuitConfiguratorBean">
+		<property name="aspectClass" value="com.tzavellas.circuitbreaker.aspectj.IntegrationPointBreaker"/>
+		<property name="circuit" ref="timeService"/>
+		<property name="maxFailures" value="1"/>
+	</bean>
+</beans>

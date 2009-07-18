@@ -19,13 +19,17 @@ public abstract class AbstractJmxTest {
 	protected void testOpenCircuitViaJmx() throws Exception {
 		time.networkTime();
 		
-		CircuitInfoMBean mbean = JMX.newMBeanProxy(
-				ManagementFactory.getPlatformMBeanServer(),
-				new ObjectName("com.tzavellas.circuitbreaker:type=CircuitInfo,target=TimeService"),
-				CircuitInfoMBean.class);
+		CircuitInfoMBean mbean = getCircuitInfoMBean("TimeService");
 		
 		assertTrue(mbean.getCalls() >= 1);
 		mbean.open();
 		time.networkTime();
+	}
+	
+	public static CircuitInfoMBean getCircuitInfoMBean(String targetName) throws Exception {
+		return JMX.newMBeanProxy(
+			ManagementFactory.getPlatformMBeanServer(),
+			new ObjectName("com.tzavellas.circuitbreaker:type=CircuitInfo,target=" + targetName),
+			CircuitInfoMBean.class);
 	}
 }
