@@ -20,6 +20,6 @@
 	<bean id="timeService" class="com.tzavellas.test.spring.TimeService"/>
 	<bean id="timeBreaker" class="com.tzavellas.circuitbreaker.spring.CircuitBreaker"/>
 	
-	<bean id="stockService" class="com.tzavellas.test.spring.StockService" />
-	<bean id="stocksBreaker" class="com.tzavellas.circuitbreaker.spring.CircuitBreaker" />
+	<bean id="stockService" class="com.tzavellas.test.spring.StockService"/>
+	<bean id="stocksBreaker" class="com.tzavellas.circuitbreaker.spring.CircuitBreaker"/>
 </beans>

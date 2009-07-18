@@ -5,13 +5,15 @@ import org.junit.BeforeClass;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.tzavellas.circuitbreaker.AbstractCircuitConfigurationTest;
 import com.tzavellas.circuitbreaker.support.CircuitConfiguration;
 import com.tzavellas.test.ITimeService;
 
-public class CircuitConfigurationTest  extends AbstractCircuitConfigurationTest {
+public class CircuitConfigurationTest  {
 	
 	private static AbstractApplicationContext ctx = new ClassPathXmlApplicationContext("/circuit-breaker.xml");
+	
+	final ITimeService time;
+	final CircuitConfiguration configurator;
 	
 	@BeforeClass
 	public static void loadContext() {

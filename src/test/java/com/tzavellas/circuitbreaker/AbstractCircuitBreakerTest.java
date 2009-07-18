@@ -2,6 +2,7 @@ package com.tzavellas.circuitbreaker;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.tzavellas.circuitbreaker.support.CircuitBreakerAspectSupport;
@@ -13,6 +14,14 @@ public abstract class AbstractCircuitBreakerTest {
 	protected IStockService stocks;
 	protected CircuitBreakerAspectSupport stocksBreaker;
 	
+	@Before
+	public void resetCircuit() {
+		// this is needed because in Spring the service and the aspect are singletons.
+		CircuitInfo circuit = stocksBreaker.getCircuitInfo(); 
+		circuit.close();
+		circuit.resetConfig();
+		circuit.resetStatistics();
+	}
 	
 	@Test
 	public void normal_operation_while_closed() {
