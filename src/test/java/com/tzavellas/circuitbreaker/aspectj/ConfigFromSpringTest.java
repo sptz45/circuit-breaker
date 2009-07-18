@@ -22,7 +22,7 @@ public class ConfigFromSpringTest {
 	}
 	
 	@Test
-	public void openAndCloseViaJmx() throws Exception {
+	public void open_and_close_via_jmx() throws Exception {
 		generateFaults(1);
 		assertTrue(breaker().getCircuitInfo().isOpen());
 		

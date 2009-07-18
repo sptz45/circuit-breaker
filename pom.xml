@@ -142,7 +142,7 @@
     		<groupId>org.springframework</groupId>
     		<artifactId>spring-context</artifactId>
     		<version>2.5.6.SEC01</version>
-    		<scope>runtime</scope>
+    		<scope>compile</scope>
     		<optional>true</optional>
     	</dependency>
 		<dependency>
