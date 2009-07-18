@@ -8,12 +8,9 @@ import com.tzavellas.circuitbreaker.support.CircuitBreakerAspectSupport;
 import com.tzavellas.circuitbreaker.util.Duration;
 
 /**
- * 
- * <p>If your pointcut matches more than one bean then this aspect must be
- * declared with <b>scope="prototype"</b>.</p>
+ * Implements the CircuitInfo Breaker stability design pattern using spring-aop.
  * 
  * @author spiros
- *
  */
 public class CircuitBreaker extends CircuitBreakerAspectSupport {
 
