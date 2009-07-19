@@ -1,4 +1,4 @@
-package com.tzavellas.circuitbreaker.spring;
+package com.tzavellas.circuitbreaker.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyEditorRegistrar;
@@ -6,7 +6,7 @@ import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
-import com.tzavellas.circuitbreaker.util.Duration;
+import com.tzavellas.circuitbreaker.spring.CircuitBreaker;
 
 /**
  * A {@link BeanFactoryPostProcessor} that registers a property editor
@@ -17,7 +17,7 @@ import com.tzavellas.circuitbreaker.util.Duration;
  * 
  * @author spiros
  */
-public class CircuitBreakerProcessor implements BeanFactoryPostProcessor {
+public class DurationProcessor implements BeanFactoryPostProcessor {
 	
 	private static final PropertyEditorRegistrar REGISTRAR = new PropertyEditorRegistrar() {
 		public void registerCustomEditors(PropertyEditorRegistry registry) {

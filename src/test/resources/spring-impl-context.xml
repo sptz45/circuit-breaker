@@ -27,5 +27,5 @@
 	<bean id="stockService" class="com.tzavellas.test.spring.StockService"/>
 	<bean id="stocksBreaker" class="com.tzavellas.circuitbreaker.spring.CircuitBreaker"/>
 	
-	<bean class="com.tzavellas.circuitbreaker.spring.CircuitBreakerProcessor"/>
+	<bean class="com.tzavellas.circuitbreaker.util.DurationProcessor"/>
 </beans>
