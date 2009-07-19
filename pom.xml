@@ -21,6 +21,11 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
+	
+	<issueManagement>
+		<system>GitHub</system>
+		<url>http://github.com/sptz45/circuit-breaker/issues</url>
+	</issueManagement>
 
 	<developers>
 		<developer>
