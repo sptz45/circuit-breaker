@@ -18,6 +18,7 @@ public class ConfigFromSpringTest {
 	
 	@After
 	public void unregisterFromJmx() {
+		CircuitBreakerConfigurator.aspectOf().setEnableJmx(false);
 		breaker().setEnableJmx(false);
 	}
 	
