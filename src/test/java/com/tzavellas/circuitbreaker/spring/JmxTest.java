@@ -12,8 +12,8 @@ public class JmxTest extends AbstractJmxTest {
 	final CircuitBreaker timeBreaker;
 	
 	public JmxTest() {
-		time = (ITimeService) SpringContextLoader.context.getBean("timeService");
-		timeBreaker = (CircuitBreaker) SpringContextLoader.context.getBean("timeBreaker");
+		time = (ITimeService) SpringLoader.CONTEXT.getBean("timeService");
+		timeBreaker = (CircuitBreaker) SpringLoader.CONTEXT.getBean("timeBreaker");
 	}
 	
 	@After

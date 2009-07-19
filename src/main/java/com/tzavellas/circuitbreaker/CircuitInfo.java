@@ -153,7 +153,7 @@ public class CircuitInfo implements CircuitInfoMBean {
 		currentFailuresDuration = d;
 	}
 	
-	public void resetConfig() {
+	public void resetToDefaultConfig() {
 		maxFailures = DEFAULT_MAX_FAILURES;
 		timeout = new AtomicLong(DEFAULT_TIMEOUT);
 		currentFailuresDuration = DEFAULT_CURRENT_FAILURES_DURATION;

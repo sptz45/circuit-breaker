@@ -6,7 +6,7 @@ import com.tzavellas.test.IStockService;
 public class CircuitBreakerTest extends AbstractCircuitBreakerTest {
 	
 	public CircuitBreakerTest() {
-		stocks = (IStockService) SpringContextLoader.context.getBean("stockService");
-		stocksBreaker = (CircuitBreaker) SpringContextLoader.context.getBean("stocksBreaker");
+		stocks = (IStockService) SpringLoader.CONTEXT.getBean("stockService");
+		stocksBreaker = (CircuitBreaker) SpringLoader.CONTEXT.getBean("stocksBreaker");
 	}
 }

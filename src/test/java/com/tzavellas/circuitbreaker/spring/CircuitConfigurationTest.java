@@ -15,8 +15,8 @@ public class CircuitConfigurationTest  {
 	final CircuitBreaker timeBreaker;
 	
 	public CircuitConfigurationTest() {
-		time = (ITimeService) SpringContextLoader.context.getBean("timeService");
-		timeBreaker = (CircuitBreaker) SpringContextLoader.context.getBean("timeBreaker");
+		time = (ITimeService) SpringLoader.CONTEXT.getBean("timeService");
+		timeBreaker = (CircuitBreaker) SpringLoader.CONTEXT.getBean("timeBreaker");
 	}
 	
 	@Before

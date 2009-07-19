@@ -19,7 +19,7 @@ public abstract class AbstractCircuitBreakerTest {
 		// this is needed because in Spring the service and the aspect are singletons.
 		CircuitInfo circuit = stocksBreaker.getCircuitInfo(); 
 		circuit.close();
-		circuit.resetConfig();
+		circuit.resetToDefaultConfig();
 		circuit.resetStatistics();
 	}
 	
