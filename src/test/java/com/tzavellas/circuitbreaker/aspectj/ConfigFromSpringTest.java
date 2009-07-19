@@ -9,7 +9,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.tzavellas.circuitbreaker.CircuitInfoMBean;
 import com.tzavellas.circuitbreaker.support.JmxUtils;
 import com.tzavellas.test.ITimeService;
-import com.tzavellas.test.aj.TimeService;
 
 public class ConfigFromSpringTest {
 	
@@ -27,7 +26,7 @@ public class ConfigFromSpringTest {
 		generateFaults(1);
 		assertTrue(breaker().getCircuitInfo().isOpen());
 		
-		CircuitInfoMBean mbean = JmxUtils.getCircuitInfo(TimeService.class);
+		CircuitInfoMBean mbean = JmxUtils.getCircuitInfo(time);
 		mbean.close();
 		assertFalse(breaker().getCircuitInfo().isOpen());
 	}

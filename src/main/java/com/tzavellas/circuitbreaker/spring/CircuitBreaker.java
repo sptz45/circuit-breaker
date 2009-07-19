@@ -2,6 +2,8 @@ package com.tzavellas.circuitbreaker.spring;
 
 import java.util.Set;
 
+import javax.annotation.PreDestroy;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 
 import com.tzavellas.circuitbreaker.support.CircuitBreakerAspectSupport;
@@ -69,5 +71,10 @@ public class CircuitBreaker extends CircuitBreakerAspectSupport implements Circu
 	public void setIgnoredExceptions(Set<Class<? extends Throwable>> ignored) {
 		ignoredExceptions.clear();
 		ignoredExceptions.addAll(ignored);
+	}
+	
+	@PreDestroy
+	public void unregisterFromJmx() {
+		setEnableJmx(false);
 	}
 }
