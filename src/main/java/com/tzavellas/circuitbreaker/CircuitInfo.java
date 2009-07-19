@@ -153,12 +153,22 @@ public class CircuitInfo implements CircuitInfoMBean {
 		currentFailuresDuration = d;
 	}
 	
+	/**
+	 * Resets this circuit's configuration to default values.
+	 * 
+	 * @see {@link DEFAULT_MAX_FAILURES}
+	 * @see {@link DEFAULT_TIMEOUT}
+	 * @see {@link DEFAULT_CURRENT_FAILURES_DURATION}
+	 */
 	public void resetToDefaultConfig() {
 		maxFailures = DEFAULT_MAX_FAILURES;
 		timeout = new AtomicLong(DEFAULT_TIMEOUT);
 		currentFailuresDuration = DEFAULT_CURRENT_FAILURES_DURATION;
 	}
 	
+	/**
+	 * Resets this circuit's statistics.
+	 */
 	public void resetStatistics() {
 		stats.calls.set(0);
 		stats.failures.set(0);

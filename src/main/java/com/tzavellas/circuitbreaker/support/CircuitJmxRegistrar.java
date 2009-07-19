@@ -25,18 +25,18 @@ import com.tzavellas.circuitbreaker.CircuitInfo;
 class CircuitJmxRegistrar {
 	
 	private CircuitInfo circuit;
-	private String targetName;
+	private Class<?> targetClass;
 	private ObjectName name;
 	
 	
-	CircuitJmxRegistrar(CircuitInfo c, String targetName) {
+	CircuitJmxRegistrar(CircuitInfo c, Class<?> targetClass) {
 		circuit = c;
-		this.targetName = targetName;
+		this.targetClass = targetClass;
 	}
 	
 	void register() {
 		try {
-			name = new ObjectName("com.tzavellas.circuitbreaker:type=CircuitInfo,target=" + targetName);
+			name = new ObjectName(JmxUtils.getObjectName(targetClass));
 			MBeanServer server = ManagementFactory.getPlatformMBeanServer();
 			server.registerMBean(circuit, name);
 		} catch (JMException e) {

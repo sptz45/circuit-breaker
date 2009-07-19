@@ -18,7 +18,7 @@ public class CircuitBreakerAspectSupport {
 	// -----------------------------------------------------------------------------
 	
 	protected void onTargetInitialization(Object target) {
-		registrar = new CircuitJmxRegistrar(circuit, target.getClass().getSimpleName());
+		registrar = new CircuitJmxRegistrar(circuit, target.getClass());
 		if (enableJmx)
 			registrar.register();
 	}

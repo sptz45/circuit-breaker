@@ -1,7 +1,6 @@
 package com.tzavellas.circuitbreaker.aspectj;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -10,7 +9,6 @@ import org.junit.Test;
 
 import com.tzavellas.circuitbreaker.CircuitInfo;
 import com.tzavellas.circuitbreaker.OpenCircuitException;
-import com.tzavellas.circuitbreaker.support.CircuitConfiguration;
 import com.tzavellas.circuitbreaker.util.Duration;
 import com.tzavellas.test.ITimeService;
 import com.tzavellas.test.aj.TimeService;
@@ -18,15 +16,12 @@ import com.tzavellas.test.aj.TimeService;
 public class CircuitConfigurationTest {
 	
 	final int newMaxFailures = CircuitInfo.DEFAULT_MAX_FAILURES + 1;
-	final ITimeService time;
-	final CircuitConfiguration configurator;
+	final ITimeService time = new TimeService();
+	final CircuitConfiguratorBean configurator = new CircuitConfiguratorBean();
 		
 	public CircuitConfigurationTest() {
-		time = new TimeService();
-		CircuitConfiguratorBean c = new CircuitConfiguratorBean();
-		c.setAspectClass(IntegrationPointBreaker.class);
-		c.setCircuit(time);
-		configurator = c;
+		configurator.setAspectClass(IntegrationPointBreaker.class);
+		configurator.setCircuit(time);
 	}
 
 	

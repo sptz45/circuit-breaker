@@ -31,23 +31,29 @@ public class CircuitConfiguratorBean implements CircuitConfiguration {
 	
 	private Method aspectOf;
 	private CircuitInfo circuitInfo;
-		
-	
+
+	/**
+	 * Apply the configuration to the circuit breaker aspect.
+	 * 
+	 * @throws Exception if something goes wrong.
+	 */
 	@PostConstruct
 	public void configure() throws Exception {
 		circuitInfo.setMaxFailures(maxFailures);
 		circuitInfo.setTimeoutMillis(timeoutMillis);
 		circuitInfo.setCurrentFailuresDuration(currentFailuresDuration);
+		throw new RuntimeException("see what to do with jmx!");
 	}	
 	
+	/** {@inheritDoc} */
 	public void setTimeoutMillis(long timeoutMillis) {
 		this.timeoutMillis = timeoutMillis;
 	}
-	
+	/** {@inheritDoc} */
 	public void setMaxFailures(int maxFailures) {
 		this.maxFailures = maxFailures;
 	}
-	
+	/** {@inheritDoc} */
 	public void setCurrentFailuresDuration(Duration d) {
 		currentFailuresDuration = d;
 	}

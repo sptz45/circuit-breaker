@@ -4,17 +4,17 @@ import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Test;
-import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.tzavellas.circuitbreaker.CircuitInfoMBean;
 import com.tzavellas.circuitbreaker.support.JmxUtils;
 import com.tzavellas.test.ITimeService;
+import com.tzavellas.test.aj.TimeService;
 
 public class ConfigFromSpringTest {
-	static AbstractApplicationContext context = new ClassPathXmlApplicationContext("/aspectj-impl-context.xml");
 	
-	ITimeService time = (ITimeService) context.getBean("timeService");
+	final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/aspectj-impl-context.xml");
+	final ITimeService time = (ITimeService) context.getBean("timeService");
 	
 	@After
 	public void unregisterFromJmx() {
@@ -27,12 +27,13 @@ public class ConfigFromSpringTest {
 		generateFaults(1);
 		assertTrue(breaker().getCircuitInfo().isOpen());
 		
-		CircuitInfoMBean mbean = JmxUtils.getCircuitInfo("TimeService");
+		CircuitInfoMBean mbean = JmxUtils.getCircuitInfo(TimeService.class);
 		mbean.close();
 		assertFalse(breaker().getCircuitInfo().isOpen());
 	}
 	
-	private IntegrationPointBreaker breaker() {
+	
+	private CircuitBreaker breaker() {
 		return IntegrationPointBreaker.aspectOf(time);
 	}
 	

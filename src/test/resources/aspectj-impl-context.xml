@@ -6,11 +6,9 @@
 	
 	<context:annotation-config/>
 	
-	<!--
-	     ==> The order of beans is important!
-	     - The configurator must be instantiated before the circuit breaker aspect
-	       (IntegrationPointBreaker) which is instantiated via aspectj right after TimeService.
-	     - The CircuitConfiguratorBean must be instantiated after the IntegrationPointBreaker aspect.
+	<!-- The order of beans is important! The configurator must be instantiated before the circuit
+	     breaker aspect (IntegrationPointBreaker) which is instantiated via aspectj right after TimeService.
+	     The CircuitConfiguratorBean must be instantiated after the IntegrationPointBreaker aspect.
 	 -->
 	
 	<bean class="com.tzavellas.circuitbreaker.aspectj.CircuitBreakerConfigurator" factory-method="aspectOf">

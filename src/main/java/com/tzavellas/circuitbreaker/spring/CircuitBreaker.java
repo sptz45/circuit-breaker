@@ -5,6 +5,7 @@ import java.util.Set;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 import com.tzavellas.circuitbreaker.support.CircuitBreakerAspectSupport;
+import com.tzavellas.circuitbreaker.support.CircuitConfiguration;
 import com.tzavellas.circuitbreaker.util.Duration;
 
 /**
@@ -12,11 +13,10 @@ import com.tzavellas.circuitbreaker.util.Duration;
  * 
  * @author spiros
  */
-public class CircuitBreaker extends CircuitBreakerAspectSupport {
+public class CircuitBreaker extends CircuitBreakerAspectSupport implements CircuitConfiguration {
 
 	private volatile boolean needsInitialization = true;
 
-	
 	public Object execute(ProceedingJoinPoint pjp) throws Throwable {
 		if (needsInitialization) {
 			synchronized (this) {
@@ -40,12 +40,15 @@ public class CircuitBreaker extends CircuitBreakerAspectSupport {
 		}
 	}
 	
+	/** {@inheritDoc} */
 	public void setMaxFailures(int maxFailures) {
 		getCircuitInfo().setMaxFailures(maxFailures);
 	}
+	/** {@inheritDoc} */
 	public void setTimeoutMillis(long timeoutMillis) {
 		getCircuitInfo().setTimeoutMillis(timeoutMillis);
 	}
+	/** {@inheritDoc} */
 	public void setCurrentFailuresDuration(Duration d) {
 		getCircuitInfo().setCurrentFailuresDuration(d);
 	}
