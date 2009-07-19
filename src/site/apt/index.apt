@@ -25,6 +25,8 @@ Status
 
 News
 
+	* <<19 July 2009:>> No stable release yet but we have implemented a Spring version of the circuit breaker and fixed some important bugs.
+	
 	* <<4 July 2009:>> First public release, your feedback is welcome.
 
 	[] 
