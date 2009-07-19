@@ -19,7 +19,7 @@
 	
 	<bean class="com.tzavellas.circuitbreaker.aspectj.CircuitConfiguratorBean">
 		<property name="aspectClass" value="com.tzavellas.circuitbreaker.aspectj.IntegrationPointBreaker"/>
-		<property name="circuit" ref="timeService"/>
+		<property name="target" ref="timeService"/>
 		<property name="maxFailures" value="1"/>
 	</bean>
 </beans>

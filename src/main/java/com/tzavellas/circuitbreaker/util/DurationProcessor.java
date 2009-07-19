@@ -6,14 +6,9 @@ import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
-import com.tzavellas.circuitbreaker.spring.CircuitBreaker;
-
 /**
  * A {@link BeanFactoryPostProcessor} that registers a property editor
  * for {@link Duration} objects.
- * 
- * <p>To be used when configuring a {@link CircuitBreaker} in a
- * {@code org.springframework.beans.factory.BeanFactory}. 
  * 
  * @author spiros
  */

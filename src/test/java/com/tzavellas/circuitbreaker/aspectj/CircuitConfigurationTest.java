@@ -21,7 +21,7 @@ public class CircuitConfigurationTest {
 		
 	public CircuitConfigurationTest() {
 		configurator.setAspectClass(IntegrationPointBreaker.class);
-		configurator.setCircuit(time);
+		configurator.setTarget(time);
 	}
 
 	
@@ -72,7 +72,7 @@ public class CircuitConfigurationTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void fail_fast_with_object_that_has_no_aspect_bound() {
-		((CircuitConfiguratorBean)configurator).setCircuit("I don't have a CircuitBreaker aspect bound on me");
+		((CircuitConfiguratorBean)configurator).setTarget("I don't have a CircuitBreaker aspect bound on me");
 	}
 	
 	private void generateFaults(int failures) {

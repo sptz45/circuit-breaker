@@ -24,7 +24,16 @@ public abstract class JmxUtils {
 			CircuitInfoMBean.class);
 	}
 
-	
+
+	/**
+	 * Get the ObjectName (as a String) used to register the ...
+	 * 
+	 * The format of the {@code ObjectName} used for each {@code CircuitInfoMBean} is:
+	 * {@literal com.tzavellas.circuitbreaker:type=CircuitInfo,target=targetName},
+	 * where targetName is the simple name of the class of the target (defined
+	 * by the circuit() pointcut). 
+	 * 
+	 */
 	public static String getObjectName(Class<?> targetClass) {
 		return "com.tzavellas.circuitbreaker:type=CircuitInfo,target=" + targetClass.getSimpleName();
 	} 

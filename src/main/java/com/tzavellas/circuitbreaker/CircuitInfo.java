@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.tzavellas.circuitbreaker.support.CircuitBreakerAspectSupport;
 import com.tzavellas.circuitbreaker.util.Duration;
 
 /**
@@ -11,7 +12,7 @@ import com.tzavellas.circuitbreaker.util.Duration;
  *
  * <p>Instances of this class are thread-safe.</p>
  * 
- * @see CircuitBreaker
+ * @see CircuitBreakerAspectSupport
  * @author spiros
  */
 public class CircuitInfo implements CircuitInfoMBean {
@@ -64,7 +65,7 @@ public class CircuitInfo implements CircuitInfoMBean {
 	}
 	
 	/**
-	 * Record that a call to the wrapped object failed.
+	 * Record that a call to the target object failed.
 	 */
 	public void recordFailure() {
 		initFirstFailureTimeStampIfNeeded();
@@ -143,11 +144,12 @@ public class CircuitInfo implements CircuitInfoMBean {
 	public void setCurrentFailuresDuration(String duration) {
 		currentFailuresDuration = Duration.valueOf(duration);
 	}
+
 	/**
 	 * Specify the duration after which the number of failures track by
 	 * the circuit breaker gets reset. 
 	 * 
-	 * @param duration the duratin, default is 1 hour.
+	 * @param duration the duration, default is 1 hour.
 	 */
 	public void setCurrentFailuresDuration(Duration d) {
 		currentFailuresDuration = d;

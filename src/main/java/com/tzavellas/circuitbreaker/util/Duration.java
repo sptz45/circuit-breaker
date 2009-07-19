@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.MatchResult;
 
 /**
- * A value object that hold a time duration in some {@link TimeUnit}.
+ * A value object that holds a time duration in some {@link TimeUnit}.
  * 
  * @author spiros
  */
