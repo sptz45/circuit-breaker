@@ -14,7 +14,7 @@ public aspect CircuitBreakerConfigurator {
 	
 	private boolean enableJmx = false;
 	
-	after(CircuitBreaker breaker) : initialization(CircuitBreaker+.new(..)) && this(breaker) {
+	after(CircuitBreaker breaker) : initialization(CircuitBreaker.new(..)) && this(breaker) {
 		breaker.setEnableJmx(enableJmx);
 	}
 

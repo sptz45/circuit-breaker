@@ -16,13 +16,13 @@ import com.tzavellas.circuitbreaker.support.CircuitBreakerAspectSupport;
  */
 public abstract aspect CircuitBreaker extends CircuitBreakerAspectSupport perthis(circuit()) {
 	
-	/** A pointcut to specify the target object. */
+	/** The pointcut that specifies the target object. */
 	public abstract pointcut circuit();
 	
 	/** A public method execution of a target object. */
 	pointcut circuitExecution() : circuit() && execution(public * *(..));
 	
-	/** An instantiation of a target object. */
+	/** The instantiation of the target object. */
 	pointcut circuitInitialization(Object o) : circuit() && initialization(*.new(..)) && this(o);
 	
 	// This is needed because initialization() can match multiple constructor
@@ -30,6 +30,7 @@ public abstract aspect CircuitBreaker extends CircuitBreakerAspectSupport perthi
 	private boolean needsInitialization = true;
 	
 	after(Object o) : circuitInitialization(o) {
+		System.out.println("CircuitBreaker init: " + o.hashCode());
 		if (needsInitialization) {
 			onTargetInitialization(o);
 			needsInitialization = false;
