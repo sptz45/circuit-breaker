@@ -30,7 +30,6 @@ public abstract aspect CircuitBreaker extends CircuitBreakerAspectSupport perthi
 	private boolean needsInitialization = true;
 	
 	after(Object o) : circuitInitialization(o) {
-		System.out.println("CircuitBreaker init: " + o.hashCode());
 		if (needsInitialization) {
 			onTargetInitialization(o);
 			needsInitialization = false;

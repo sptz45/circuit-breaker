@@ -29,6 +29,17 @@ public class JmxTest extends AbstractJmxTest {
 		readStatsAndOpenCircuitViaJmx();
 	}
 	
+	@Test(expected=OpenCircuitException.class)
+	public void enable_jmx_via_configurator_bean() throws Exception {
+		time = new TimeService();
+		CircuitConfiguratorBean conf = new CircuitConfiguratorBean();
+		conf.setAspectClass(IntegrationPointBreaker.class);
+		conf.setTarget(time);
+		conf.setEnableJmx(true);
+		conf.configure();
+		readStatsAndOpenCircuitViaJmx();
+	}
+	
 	@Test
 	public void prevent_jmx_name_collision_for_two_objects_of_the_same_type() throws Exception {
 		CircuitBreakerConfigurator.aspectOf().setEnableJmx(true);

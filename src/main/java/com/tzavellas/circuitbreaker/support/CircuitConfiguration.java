@@ -23,4 +23,11 @@ public interface CircuitConfiguration {
 	 * @see Duration.Editor
 	 */
 	void setCurrentFailuresDuration(Duration d);
+	
+	/**
+	 * Register/unregister this circuit breaker to/from JMX.
+	 * 
+	 * @param enable whether to enable JMX, default is false.
+	 */
+	public void setEnableJmx(boolean enable);
 }

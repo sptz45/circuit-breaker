@@ -28,9 +28,10 @@ public class CircuitConfiguratorBean implements CircuitConfiguration {
 	private long timeoutMillis = CircuitInfo.DEFAULT_TIMEOUT;
 	private int maxFailures = CircuitInfo.DEFAULT_MAX_FAILURES;
 	private Duration currentFailuresDuration = CircuitInfo.DEFAULT_CURRENT_FAILURES_DURATION;
+	private Boolean enableJmx = null;
 	
 	private Method aspectOf;
-	private CircuitInfo circuitInfo;
+	private CircuitBreaker circuitBreaker;
 
 	/**
 	 * Apply the configuration to the circuit breaker aspect.
@@ -39,9 +40,12 @@ public class CircuitConfiguratorBean implements CircuitConfiguration {
 	 */
 	@PostConstruct
 	public void configure() throws Exception {
+		CircuitInfo circuitInfo = circuitBreaker.getCircuitInfo();
 		circuitInfo.setMaxFailures(maxFailures);
 		circuitInfo.setTimeoutMillis(timeoutMillis);
 		circuitInfo.setCurrentFailuresDuration(currentFailuresDuration);
+		if (enableJmx != null)
+			circuitBreaker.setEnableJmx(enableJmx);
 	}	
 	
 	/** {@inheritDoc} */
@@ -55,6 +59,10 @@ public class CircuitConfiguratorBean implements CircuitConfiguration {
 	/** {@inheritDoc} */
 	public void setCurrentFailuresDuration(Duration d) {
 		currentFailuresDuration = d;
+	}
+	/** {@inheritDoc} */
+	public void setEnableJmx(boolean enable) {
+		enableJmx = enable;
 	}
 	
 	/**
@@ -76,7 +84,7 @@ public class CircuitConfiguratorBean implements CircuitConfiguration {
 	 */
 	public void setTarget(Object target) {
 		try {
-			circuitInfo = ((CircuitBreaker) aspectOf.invoke(null, target)).getCircuitInfo();
+			circuitBreaker = ((CircuitBreaker) aspectOf.invoke(null, target));
 		} catch (InvocationTargetException e) {
 			throw new IllegalArgumentException("The specified object has no CircuitBreaker aspect bound!", e);
 		} catch (Exception e) {
