@@ -36,7 +36,7 @@ public abstract class CircuitBreakerAspectSupport {
 	protected CircuitInfo circuit = new CircuitInfo();
 	
 	protected final Set<Class<? extends Throwable>> ignoredExceptions = new CopyOnWriteArraySet<Class<? extends Throwable>>();
-	private boolean enableJmx = false;
+	private volatile boolean enableJmx = false;
 	
 	// -----------------------------------------------------------------------------
 	

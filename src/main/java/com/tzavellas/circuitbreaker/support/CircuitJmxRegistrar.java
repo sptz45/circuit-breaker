@@ -31,6 +31,8 @@ class CircuitJmxRegistrar {
 	}
 	
 	void register() {
+		if (isRegistered())
+			return;
 		try {
 			name = new ObjectName(JmxUtils.getObjectName(target));
 			MBeanServer server = ManagementFactory.getPlatformMBeanServer();

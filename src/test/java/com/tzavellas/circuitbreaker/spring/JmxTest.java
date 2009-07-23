@@ -16,14 +16,14 @@ public class JmxTest extends AbstractJmxTest {
 
 	final CircuitBreaker timeBreaker;
 	
-	@Override
-	protected CircuitInfoMBean mbean() throws JMException {
-		return JmxUtils.circuitInfoForType(TimeService.class).iterator().next();
-	}
-	
 	public JmxTest() throws JMException {
 		time = (ITimeService) SpringLoader.CONTEXT.getBean("timeService");
 		timeBreaker = (CircuitBreaker) SpringLoader.CONTEXT.getBean("timeBreaker");
+	}
+	
+	@Override
+	protected CircuitInfoMBean mbean() throws JMException {
+		return JmxUtils.circuitInfoForType(TimeService.class).iterator().next();
 	}
 	
 	@After
