@@ -60,6 +60,15 @@ public class CircuitConfigurationTest {
 		assertEquals(ITimeService.EXPECTED, time.networkTime());
 	}
 	
+	@Test(expected=OpenCircuitException.class)
+	public void enable_slow_metnod_execution_tracking() throws Exception {
+		configurator.setMaxMethodDuration(Duration.nanos(1));
+		configurator.configure();
+		for (int i = 0; i < CircuitInfo.DEFAULT_MAX_FAILURES; i++)
+			time.networkTime();
+		time.networkTime();
+	}
+	
 	@Test(expected=IllegalArgumentException.class)
 	public void fail_fast_with_wrong_aspect_class_via_reflection() throws Throwable {
 		Method classSetter = configurator.getClass().getMethod("setAspectClass", Class.class);

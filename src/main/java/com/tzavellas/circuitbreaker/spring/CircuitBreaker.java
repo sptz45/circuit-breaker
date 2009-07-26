@@ -35,15 +35,15 @@ public class CircuitBreaker extends CircuitBreakerAspectSupport implements Circu
 			}
 		}
 		
-		checkIfTheCircuitIsOpenAndPreventExecution();
+		beforeMethodExecution();
 		
 		try {
 			Object result = pjp.proceed();
-			checkIfTheCircuitIsHalfOpenAndClose();
+			afterSucessfulMethodExecution();
 			return result;
 			
 		} catch (Throwable e) {
-			recordFailureAndIfHalfOpenThenOpen(e);
+			afterFailure(e);
 			throw e;
 		}
 	}

@@ -104,6 +104,18 @@ public abstract class AbstractCircuitBreakerTest {
 		stocksBreaker.removeIgnoredExcpetion(RuntimeException.class);
 	}
 	
+	@Test
+	public void slow_metnod_executions_count_as_failures() {
+		stocksBreaker.setMaxMethodDuration(Duration.nanos(1));
+		for (int i = 0; i < CircuitInfo.DEFAULT_MAX_FAILURES; i++)
+			stocks.getQuote("JAVA");
+		assertTrue(stocksBreaker.getCircuitInfo().isOpen());
+		stocksBreaker.setMaxMethodDuration(null);
+	}
+	
+	
+	//------------------------------------------------------------------------
+	
 	protected void generateFaultsToOpen() {
 		generateFaults(CircuitInfo.DEFAULT_MAX_FAILURES);
 	}

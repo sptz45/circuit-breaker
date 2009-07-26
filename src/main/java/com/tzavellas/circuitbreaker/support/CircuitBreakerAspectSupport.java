@@ -5,6 +5,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import com.tzavellas.circuitbreaker.CircuitInfo;
 import com.tzavellas.circuitbreaker.OpenCircuitException;
+import com.tzavellas.circuitbreaker.util.Duration;
+import com.tzavellas.circuitbreaker.util.ThreadLocalStopwatch;
 
 /**
  * An abstract class that provides all the functionality needed to implement the
@@ -32,12 +34,17 @@ import com.tzavellas.circuitbreaker.OpenCircuitException;
  */ 
 public abstract class CircuitBreakerAspectSupport {
 	
+	private final ThreadLocalStopwatch stopwatch = new ThreadLocalStopwatch();
+	
+	protected final CircuitInfo circuit = new CircuitInfo();
 	protected CircuitJmxRegistrar registrar;
-	protected CircuitInfo circuit = new CircuitInfo();
 	
 	protected final Set<Class<? extends Throwable>> ignoredExceptions = new CopyOnWriteArraySet<Class<? extends Throwable>>();
-	private volatile boolean enableJmx = false;
 	
+	private volatile boolean enableJmx = false;
+	private volatile Duration maxMethodDuration = null;
+	
+
 	// -----------------------------------------------------------------------------
 	
 	/**
@@ -58,10 +65,12 @@ public abstract class CircuitBreakerAspectSupport {
 	 * <p>To be invoked, by the extending aspect, each time a method is called
 	 * on the target object.</p>
 	 */
-	protected void checkIfTheCircuitIsOpenAndPreventExecution() {
+	protected void beforeMethodExecution() {
 		if (circuit.isOpen())
 			throw new OpenCircuitException(circuit);
 		circuit.recordCall();
+		if (maxMethodDuration != null)
+			stopwatch.start();
 	}
 	
 	/**
@@ -70,9 +79,17 @@ public abstract class CircuitBreakerAspectSupport {
 	 * <p>To be invoked, by the extending aspect, for each successful method
 	 * call on the target object.</p>
 	 */
-	protected void checkIfTheCircuitIsHalfOpenAndClose() {
+	protected void afterSucessfulMethodExecution() {
 		if (circuit.isHalfOpen())
 			circuit.close();
+		if (maxMethodDuration != null) {
+			stopwatch.stop();
+			if (stopwatch.duration() >= maxMethodDuration.toNanos()) {
+				recordFailure();
+			}
+			stopwatch.reset();
+		}
+		
 	}
 	
 	/**
@@ -81,12 +98,19 @@ public abstract class CircuitBreakerAspectSupport {
 	 * <p>To be invoked, by the extending aspect, each time an exception gets
 	 * thrown by the target object.</p>
 	 */
-	protected void recordFailureAndIfHalfOpenThenOpen(Throwable e) {
+	protected void afterFailure(Throwable e) {
 		if (! ignoredExceptions.contains(e.getClass())) {
-			circuit.recordFailure();
-			if (circuit.isHalfOpen()) {
-				circuit.open();
-			}
+			recordFailure();
+		}
+		if (maxMethodDuration != null) {
+			stopwatch.reset();
+		}
+	}
+	
+	private void recordFailure() {
+		circuit.recordFailure();
+		if (circuit.isHalfOpen()) {
+			circuit.open();
 		}
 	}
 	
@@ -133,5 +157,16 @@ public abstract class CircuitBreakerAspectSupport {
 			else
 				registrar.unregister();
 		}
+	}
+	
+	/**
+	 * Set the duration after which a method execution is considered a failure.
+	 * 
+	 * @param d the duration after which a method execution is considered a
+	 *          failure. Default is <code>null</code>, no tracking of execution
+	 *          time happens.
+	 */
+	public void setMaxMethodDuration(Duration d) {
+		maxMethodDuration = d;
 	}
 }

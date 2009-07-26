@@ -28,6 +28,7 @@ public class CircuitConfiguratorBean implements CircuitConfiguration {
 	private long timeoutMillis = CircuitInfo.DEFAULT_TIMEOUT;
 	private int maxFailures = CircuitInfo.DEFAULT_MAX_FAILURES;
 	private Duration currentFailuresDuration = CircuitInfo.DEFAULT_CURRENT_FAILURES_DURATION;
+	private Duration maxMethodDuration = null;
 	private Boolean enableJmx = null;
 	
 	private Method aspectOf;
@@ -46,6 +47,7 @@ public class CircuitConfiguratorBean implements CircuitConfiguration {
 		circuitInfo.setCurrentFailuresDuration(currentFailuresDuration);
 		if (enableJmx != null)
 			circuitBreaker.setEnableJmx(enableJmx);
+		circuitBreaker.setMaxMethodDuration(maxMethodDuration);
 	}	
 	
 	/** {@inheritDoc} */
@@ -63,6 +65,10 @@ public class CircuitConfiguratorBean implements CircuitConfiguration {
 	/** {@inheritDoc} */
 	public void setEnableJmx(boolean enable) {
 		enableJmx = enable;
+	}
+	/** {@inheritDoc} */
+	public void setMaxMethodDuration(Duration d) {
+		maxMethodDuration = d;
 	}
 	
 	/**

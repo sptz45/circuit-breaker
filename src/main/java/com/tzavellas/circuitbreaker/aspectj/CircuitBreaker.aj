@@ -37,15 +37,15 @@ public abstract aspect CircuitBreaker extends CircuitBreakerAspectSupport perthi
 	}
 
 	before() : circuitExecution() {
-		checkIfTheCircuitIsOpenAndPreventExecution();
+		beforeMethodExecution();
 	}
 	
 	after() returning : circuitExecution() {
-		checkIfTheCircuitIsHalfOpenAndClose();
+		afterSucessfulMethodExecution();
 	}
 	
 	after() throwing(Throwable e) : circuitExecution() {
 		if (! (e instanceof OpenCircuitException))
-			recordFailureAndIfHalfOpenThenOpen(e);
+			afterFailure(e);
 	}	
 }
