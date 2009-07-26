@@ -29,6 +29,7 @@
 
 	<developers>
 		<developer>
+			<id>sptz45</id>
 			<name>Spiros Tzavellas</name>
 			<email>spiros at tzavellas dot com</email>
 			<url>http://www.tzavellas.com</url>
@@ -128,6 +129,7 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>1.6.5</version>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
