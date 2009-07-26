@@ -21,6 +21,14 @@ public class ClassSetTest {
 	}
 	
 	@Test
+	public void adding_null_does_noting() {
+		classes.add(null);
+		assertTrue(classes.isEmpty());
+		classes.addAll(null);
+		assertTrue(classes.isEmpty());
+	}
+	
+	@Test
 	public void operation_while_empty() {
 		assertTrue(classes.isEmpty());
 		assertEquals(0, classes.size());
@@ -40,6 +48,15 @@ public class ClassSetTest {
 		classes.add(RuntimeException.class);
 		assertTrue(classes.contains(RuntimeException.class));
 		assertTrue(classes.contains(ArithmeticException.class));
+	}
+	
+	@Test
+	public void adding_a_subclass_does_nothing() {
+		classes.add(RuntimeException.class);
+		assertEquals(1, classes.size());
+		
+		classes.add(ArithmeticException.class);
+		assertEquals(1, classes.size());
 	}
 	
 	@Test

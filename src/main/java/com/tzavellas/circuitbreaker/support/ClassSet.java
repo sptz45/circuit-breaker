@@ -23,6 +23,7 @@ class ClassSet {
 	}
 
 	public void addAll(Collection<? extends Class<?>> classes) {
+		if (classes == null) return;
 		for (Class<?> c: classes) add(c);
 	}
 	
