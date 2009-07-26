@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -67,6 +70,18 @@ public class CircuitConfigurationTest {
 		for (int i = 0; i < CircuitInfo.DEFAULT_MAX_FAILURES; i++)
 			time.networkTime();
 		time.networkTime();
+	}
+	
+	@Test
+	@SuppressWarnings("unchecked")
+	public void add_ignored_exception_and_test() {
+		Set<Class<? extends Throwable>> ignored = new HashSet<Class<? extends Throwable>>();
+		ignored.add(IllegalStateException.class);
+		CircuitBreakerConfigurator.aspectOf().setIgnoredExceptions(ignored);
+		ITimeService ts = new TimeService();
+		generateFaults(CircuitInfo.DEFAULT_MAX_FAILURES);
+		ts.networkTime();
+		CircuitBreakerConfigurator.aspectOf().setIgnoredExceptions(Collections.EMPTY_SET);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
