@@ -34,14 +34,14 @@ public class OpenCircuitException extends RuntimeException {
 	}
 
 	/**
-	 * Overriden to return null to avoid the cost of creating the stack
+	 * Overridden to return null to avoid the cost of creating the stack
 	 * trace.
 	 * 
 	 * <p>This can be done because this exception is used as a control
 	 * structure and not to report any error.</p>
 	 */
-//	@Override
-//	public synchronized Throwable fillInStackTrace() {
-//		return null;
-//	}
+	@Override
+	public synchronized Throwable fillInStackTrace() {
+		return null;
+	}
 }
