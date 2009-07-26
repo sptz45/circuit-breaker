@@ -17,11 +17,6 @@ public class CircuitBreaker implements CircuitBreakerMBean{
 	}
 
 	/** {@inheritDoc} */
-	public void setMaxMethodDuration(Duration d) {
-		breaker.setMaxMethodDuration(d);
-	}
-
-	/** {@inheritDoc} */
 	public int getCalls() {
 		return info.getCalls();
 	}

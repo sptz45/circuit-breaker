@@ -25,6 +25,8 @@ public class DurationTest {
 		assertEquals(Duration.nanos(10000), Duration.micros(10));
 		assertEquals(Duration.days(10), new Duration(Duration.days(10).toNanos(), TimeUnit.NANOSECONDS));
 		assertFalse(Duration.micros(3).equals(null));
+		assertFalse(Duration.days(1).equals(Duration.nanos(1)));
+		assertFalse(Duration.hours(1).equals(("1h")));
 	}
 	
 	@Test
@@ -33,7 +35,7 @@ public class DurationTest {
 	}
 	
 	@Test
-	public void test_valueOf() {
+	public void test_with_legal_duration_strings() {
 		assertEquals(10, Duration.valueOf("10ns").toNanos());
 		assertEquals(10, Duration.valueOf("10μs").toMicros());
 		assertEquals(10, Duration.valueOf("10ms").toMillis());
@@ -44,6 +46,39 @@ public class DurationTest {
 		
 		assertEquals(10, Duration.valueOf("10 ns").toNanos());
 		assertEquals(10, Duration.valueOf("10nsec").toNanos());
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void missing_unit_in_string() {
+		Duration.valueOf("10");
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void illegal_string_for_duration() {
+		Duration.valueOf("I am not a duration");
+	}
+	
+	@Test
+	public void test_has_unit() {
+		assertTrue(Duration.days(1).hasDays());
+		assertFalse(Duration.hours(1).hasDays());
+		
+		assertTrue(Duration.hours(1).hasHours());
+		assertFalse(Duration.minutes(1).hasHours());
+		
+		assertTrue(Duration.minutes(1).hasMinutes());
+		assertFalse(Duration.seconds(1).hasMinutes());
+		
+		assertTrue(Duration.seconds(1).hasSeconds());
+		assertFalse(Duration.millis(1).hasSeconds());
+		
+		assertTrue(Duration.millis(1).hasMillis());
+		assertFalse(Duration.micros(1).hasMillis());
+		
+		assertTrue(Duration.micros(1).hasMicros());
+		assertFalse(Duration.nanos(1).hasMicros());
+		
+		assertTrue(Duration.nanos(1).hasNanos());
 	}
 	
 	@Test

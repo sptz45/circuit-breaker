@@ -113,22 +113,22 @@ public final class Duration {
 		return true;
 	}
 	public boolean hasMicros() {
-		return unit.toMicros(duration) > 0 || duration == 0;
+		return unit.toMicros(duration) > 0;
 	}
 	public boolean hasMillis() {
-		return unit.toMillis(duration) > 0 || duration == 0;
+		return unit.toMillis(duration) > 0;
 	}
 	public boolean hasSeconds() {
-		return unit.toSeconds(duration) > 0 || duration == 0;
+		return unit.toSeconds(duration) > 0;
 	}
 	public boolean hasMinutes() {
-		return unit.toMinutes(duration) > 0 || duration == 0;
+		return unit.toMinutes(duration) > 0;
 	}
 	public boolean hasHours() {
-		return unit.toHours(duration) > 0 || duration == 0;
+		return unit.toHours(duration) > 0;
 	}
 	public boolean hasDays() {
-		return unit.toDays(duration) > 0 || duration == 0;
+		return unit.toDays(duration) > 0;
 	}
 	
 	
