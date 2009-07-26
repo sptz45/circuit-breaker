@@ -97,6 +97,15 @@ public abstract class AbstractCircuitBreakerTest {
 	
 	@Test
 	public void ignored_exceptions_do_not_open_a_circuit() {
+		stocksBreaker.ignoreException(ArithmeticException.class);
+		generateFaultsToOpen();
+		assertEquals(5, stocks.getQuote("JAVA"));
+		assertFalse(stocksBreaker.getCircuitInfo().isOpen());
+		stocksBreaker.removeIgnoredExcpetion(ArithmeticException.class);
+	}
+	
+	@Test
+	public void ignored_exceptions_capture_subclasses() {
 		stocksBreaker.ignoreException(RuntimeException.class);
 		generateFaultsToOpen();
 		assertEquals(5, stocks.getQuote("JAVA"));
@@ -122,7 +131,7 @@ public abstract class AbstractCircuitBreakerTest {
 	
 	protected void generateFaults(int numOfFaults) {
 		for (int i = 0; i < numOfFaults; i++) {
-			try { stocks.faultyGetQuote("JAVA"); } catch (RuntimeException expected) { }
+			try { stocks.faultyGetQuote("JAVA"); } catch (ArithmeticException expected) { }
 		}
 	}
 }

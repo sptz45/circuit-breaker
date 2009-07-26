@@ -9,6 +9,6 @@ public class StockService implements IStockService {
 	 }
 	 
 	public int faultyGetQuote(String ticker) {
-		 throw new RuntimeException();
+		 throw new ArithmeticException();
 	 }
 }

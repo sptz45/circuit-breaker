@@ -1,8 +1,5 @@
 package com.tzavellas.circuitbreaker.support;
 
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
-
 import com.tzavellas.circuitbreaker.CircuitInfo;
 import com.tzavellas.circuitbreaker.OpenCircuitException;
 import com.tzavellas.circuitbreaker.util.Duration;
@@ -39,7 +36,7 @@ public abstract class CircuitBreakerAspectSupport {
 	protected final CircuitInfo circuit = new CircuitInfo();
 	protected CircuitJmxRegistrar registrar;
 	
-	protected final Set<Class<? extends Throwable>> ignoredExceptions = new CopyOnWriteArraySet<Class<? extends Throwable>>();
+	protected final ClassSet ignoredExceptions = new ClassSet();
 	
 	private volatile boolean enableJmx = false;
 	private volatile Duration maxMethodDuration = null;
@@ -128,8 +125,8 @@ public abstract class CircuitBreakerAspectSupport {
 	 * When an exception of the specified type gets thrown as a result of a
 	 * method execution of a circuit object do not increment the failure counter.
 	 * 
-	 * <p>Please note that exception types are tested using equality and
-	 * not instanceof.</p>
+	 * <p>Please note that subclasses of the specified exception will also
+	 * be ignored.</p>
 	 * 
 	 * @param ignored the exception to ignore
 	 */
