@@ -10,16 +10,13 @@ class ClassSet {
 
 	public void add(Class<?> c) {
 		if (c == null) return;
-		boolean toAdd = classes.isEmpty();
 		for (Class<?> cls: classes)
 			if (c.isAssignableFrom(cls)) {
 				classes.remove(cls);
-				toAdd = true;
 			} else if (cls.isAssignableFrom(c)) {
 				return;
 			}
-		
-		if (toAdd) classes.add(c);
+		classes.add(c);
 	}
 
 	public void addAll(Collection<? extends Class<?>> classes) {
