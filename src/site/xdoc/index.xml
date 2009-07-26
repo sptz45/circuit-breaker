@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Circuit Breaker</title>
+    <author>Spiros Tzavellas</author>
+  </properties>
+
+  <body>
+    <section name="Introduction">
+    	<p>
+    		<strong>Circuit Breaker</strong> is an implementation of the <em>Circuit Breaker
+    		stability design pattern</em> as described in the book
+    		<a href="http://pragmaticprogrammer.com/titles/mnee/index.html">Release It!</a> by
+    		<a href="http://www.michaelnygard.com/">Michael Nygard</a>.
+    	</p>
+  
+  		<p>For more information please read the project's <a href="faq.html">FAQ</a>.</p>
+    </section>
+
+	<section name="Status">
+		<p>The project has no stable release yet but we have implemented all the features planned for
+		the first release and there are no known bugs.
+		</p>
+	</section>
+	
+	<section name="News">
+		<p>For the complete list of changes visit the project's <a href="http://github.com/sptz45/circuit-breaker/commits/">commit history</a></p>
+	
+		<h5>26 July 2009</h5>
+		<ul>
+			<li>Added a 3rd implementation using <a href="http://aopalliance.sourceforge.net/">AOP Alliance</a>'s <code>MethodInterceptor</code>.</li>
+			<li>Various <em>JMX</em> changes including a change in the <code>ObjectName</code> that is used to register the <em>circuit breakers</em> to <em>JMX</em>.</li>
+			<li>Added the ability to count slow method executions as failures.</li>
+		</ul>
+		
+		<h5>19 July 2009</h5>
+		<ul>
+			<li>We have implemented a <a href="http://www.springframework.org">Spring</a> version of the <em>circuit breaker</em> and fixed some important bugs.</li>
+		</ul>
+		
+		<h5>4 July 2009</h5>
+		<ul>
+			<li>First public release, your feedback is welcome.</li>
+		</ul>
+		
+	</section>
+  </body>
+</document>

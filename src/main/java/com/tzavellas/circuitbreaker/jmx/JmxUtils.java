@@ -31,7 +31,7 @@ public abstract class JmxUtils {
 	
 	public static Set<CircuitBreakerMBean> circuitBreakersForType(Class<?> targetClass) throws JMException {
 		MBeanServer server = ManagementFactory.getPlatformMBeanServer();
-		String query = String.format("com.tzavellas.circuitbreaker:type=CircuitInfo,target=%s,code=*", targetClass.getSimpleName());
+		String query = String.format("com.tzavellas.circuitbreaker:type=CircuitBreaker,target=%s,code=*", targetClass.getSimpleName());
 		Set<ObjectName> names = server.queryNames(new ObjectName(query), null);
 		Set<CircuitBreakerMBean> mbeans = new HashSet<CircuitBreakerMBean>();
 		for (ObjectName name: names)
@@ -40,7 +40,7 @@ public abstract class JmxUtils {
 	}
 
 	public static String getObjectName(Object target) {
-		return String.format("com.tzavellas.circuitbreaker:type=CircuitInfo,target=%s,code=%d",
+		return String.format("com.tzavellas.circuitbreaker:type=CircuitBreaker,target=%s,code=%d",
 				target.getClass().getSimpleName(),
 				target.hashCode());
 	} 

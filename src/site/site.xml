@@ -35,6 +35,7 @@
 			<item name="Main" href="index.html"/>
 			<item name="FAQ" href="faq.html"/>
 			<item name="Source Code" href="http://github.com/sptz45/circuit-breaker/"/>
+			<item name="Commit History" href="http://github.com/sptz45/circuit-breaker/commits/"/>
 			<item name="License" href="license.html"/>
 		</menu>
 		
