@@ -37,6 +37,10 @@ class ClassSet {
 		return classes.isEmpty();
 	}
 	
+	public int size() {
+		return classes.size();
+	}
+	
 	public void clear() {
 		classes.clear();
 	}
