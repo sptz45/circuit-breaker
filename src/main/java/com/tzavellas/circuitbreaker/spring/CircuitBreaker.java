@@ -1,14 +1,7 @@
 package com.tzavellas.circuitbreaker.spring;
 
-import java.util.Set;
-
-import javax.annotation.PreDestroy;
-
 import org.aspectj.lang.ProceedingJoinPoint;
-
-import com.tzavellas.circuitbreaker.support.CircuitBreakerAspectSupport;
-import com.tzavellas.circuitbreaker.support.CircuitConfiguration;
-import com.tzavellas.circuitbreaker.util.Duration;
+import com.tzavellas.circuitbreaker.support.ProxyBasedCircuitBreakerAspectSupport;
 
 /**
  * Implements the Circuit Breaker stability design pattern using spring-aop.
@@ -18,63 +11,19 @@ import com.tzavellas.circuitbreaker.util.Duration;
  * 
  * @author spiros
  */
-public class CircuitBreaker extends CircuitBreakerAspectSupport implements CircuitConfiguration {
+public class CircuitBreaker extends ProxyBasedCircuitBreakerAspectSupport {
 
-	// We need the target object to perform some initialization (JMX registration etc)
-	// so we initialize lazily on the first call of the around advice.
-	private volatile boolean needsInitialization = true;
-
-	/** The method of the around advice. */
-	public Object execute(ProceedingJoinPoint pjp) throws Throwable {
-		if (needsInitialization) {
-			synchronized (this) {
-				if (needsInitialization) {
-					onTargetInitialization(pjp.getTarget());
-					needsInitialization = false;
-				}
-			}
-		}
-		
-		beforeMethodExecution();
-		
-		try {
-			Object result = pjp.proceed();
-			afterSucessfulMethodExecution();
-			return result;
-			
-		} catch (Throwable e) {
-			afterFailure(e);
-			throw e;
-		}
+	public Object around(ProceedingJoinPoint pjp) throws Throwable {
+		return doExecute(pjp);
 	}
 	
-	/** {@inheritDoc} */
-	public void setMaxFailures(int maxFailures) {
-		getCircuitInfo().setMaxFailures(maxFailures);
-	}
-	/** {@inheritDoc} */
-	public void setTimeout(Duration timeout) {
-		getCircuitInfo().setTimeout(timeout);
-	}
-	/** {@inheritDoc} */
-	public void setCurrentFailuresDuration(Duration d) {
-		getCircuitInfo().setCurrentFailuresDuration(d);
+	@Override
+	protected Object getTarget(Object invocation) {
+		return ((ProceedingJoinPoint) invocation).getTarget();
 	}
 	
-	/**
-	 * Set the collection of exceptions that when thrown, as a result of a
-	 * method execution of the target object, the failure counter will not
-	 * get incremented.
-	 * 
-	 * @param ignored the set of exceptions to ignore
-	 */
-	public void setIgnoredExceptions(Set<Class<? extends Throwable>> ignored) {
-		ignoredExceptions.clear();
-		ignoredExceptions.addAll(ignored);
-	}
-	
-	@PreDestroy
-	public void unregisterFromJmx() {
-		setEnableJmx(false);
+	@Override
+	protected Object proceed(Object invocation) throws Throwable {
+		return ((ProceedingJoinPoint) invocation).proceed();
 	}
 }

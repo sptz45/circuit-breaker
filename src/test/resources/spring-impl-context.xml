@@ -3,19 +3,9 @@
 		xmlns:aop="http://www.springframework.org/schema/aop"
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
-			
-	<aop:config>
-		<aop:aspect id="time" ref="timeBreaker">
-			<aop:pointcut id="timePointcut" expression="execution(* com.tzavellas.test.spring.TimeService.*(..))"/>
-			<aop:around  pointcut-ref="timePointcut" method="execute"/>			
-		</aop:aspect>
-		
-		<aop:aspect id="stocks" ref="stocksBreaker">
-			<aop:pointcut id="stocksPointcut" expression="execution(* com.tzavellas.test.spring.StockService.*(..))"/>
-			<aop:around  pointcut-ref="stocksPointcut" method="execute"/>			
-		</aop:aspect>
-	</aop:config>
-	
+
+
+	<bean class="com.tzavellas.circuitbreaker.util.DurationProcessor"/>
 	
 	<bean id="timeService" class="com.tzavellas.test.spring.TimeService"/>
 	<bean id="timeBreaker" class="com.tzavellas.circuitbreaker.spring.CircuitBreaker">
@@ -26,6 +16,30 @@
 	
 	<bean id="stockService" class="com.tzavellas.test.spring.StockService"/>
 	<bean id="stocksBreaker" class="com.tzavellas.circuitbreaker.spring.CircuitBreaker"/>
+			
+	<aop:config>
+		<aop:aspect id="time" ref="timeBreaker">
+			<aop:pointcut id="timePointcut" expression="execution(* com.tzavellas.test.spring.TimeService.*(..))"/>
+			<aop:around  pointcut-ref="timePointcut" method="around"/>			
+		</aop:aspect>
+		
+		<aop:aspect id="stocks" ref="stocksBreaker">
+			<aop:pointcut id="stocksPointcut" expression="bean(stockService)"/>
+			<aop:around  pointcut-ref="stocksPointcut" method="around"/>			
+		</aop:aspect>
+	</aop:config>
 	
-	<bean class="com.tzavellas.circuitbreaker.util.DurationProcessor"/>
+	<bean id="stocksBreakerAlliance" class="com.tzavellas.circuitbreaker.aopalliance.CircuitBreaker"/>
+	
+	<bean id="stockServiceAlliance" class="org.springframework.aop.framework.ProxyFactoryBean">
+    	<property name="proxyInterfaces" value="com.tzavellas.test.IStockService"/>
+    	<property name="target">
+    		<bean class="com.tzavellas.test.spring.StockService"/>	
+    	</property>
+    	<property name="interceptorNames">
+        	<list>
+            	<value>stocksBreakerAlliance</value>
+        	</list>
+    	</property>
+	</bean>
 </beans>

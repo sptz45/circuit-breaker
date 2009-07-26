@@ -23,7 +23,7 @@ public class JmxTest extends AbstractJmxTest {
 	
 	@Override
 	protected CircuitBreakerMBean mbean() throws JMException {
-		return JmxUtils.circuitBreakerForType(TimeService.class).iterator().next();
+		return JmxUtils.circuitBreakersForType(TimeService.class).iterator().next();
 	}
 	
 	@After
