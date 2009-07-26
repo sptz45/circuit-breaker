@@ -17,10 +17,9 @@ public class CircuitBreakerTest extends AbstractCircuitBreakerTest {
 		stocks = (IStockService) SpringLoader.CONTEXT.getBean("stockServiceAlliance");
 		stocksBreaker = (CircuitBreaker) SpringLoader.CONTEXT.getBean("stocksBreakerAlliance");
 	}
-	
-	
+		
 	@Test
-	public void test_jmx() throws Exception {
+	public void enable_and_use_jmx() throws Exception {
 		stocksBreaker.setEnableJmx(true);
 		stocks.getQuote("JAVA");
 		

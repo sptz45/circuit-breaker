@@ -4,7 +4,6 @@
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-
 	<bean class="com.tzavellas.circuitbreaker.util.DurationProcessor"/>
 	
 	<bean id="timeService" class="com.tzavellas.test.spring.TimeService"/>
@@ -15,7 +14,9 @@
 	</bean>
 	
 	<bean id="stockService" class="com.tzavellas.test.spring.StockService"/>
-	<bean id="stocksBreaker" class="com.tzavellas.circuitbreaker.spring.CircuitBreaker"/>
+	<bean id="stocksBreaker" class="com.tzavellas.circuitbreaker.spring.CircuitBreaker">
+		<property name="maxMethodDuration" value="30sec"/>
+	</bean>
 			
 	<aop:config>
 		<aop:aspect id="time" ref="timeBreaker">

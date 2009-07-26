@@ -18,16 +18,15 @@ public abstract class JmxUtils {
 	
 	private JmxUtils() { }
 	
-	public static CircuitBreakerMBean getCircuitBreaker(Object target) throws JMException {
-		return getCircuitBreaker(new ObjectName(getObjectName(target)));
-			
-	}
-	
 	private static CircuitBreakerMBean getCircuitBreaker(ObjectName name) throws JMException {
 		return JMX.newMBeanProxy(
 			ManagementFactory.getPlatformMBeanServer(),
 			name,
 			CircuitBreakerMBean.class);
+	}
+	
+	public static CircuitBreakerMBean getCircuitBreaker(Object target) throws JMException {
+		return getCircuitBreaker(new ObjectName(getObjectName(target)));
 	}
 	
 	public static Set<CircuitBreakerMBean> circuitBreakersForType(Class<?> targetClass) throws JMException {

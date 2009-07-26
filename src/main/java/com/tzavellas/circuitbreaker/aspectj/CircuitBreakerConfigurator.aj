@@ -40,7 +40,7 @@ public aspect CircuitBreakerConfigurator {
 	 * method execution of the target object, the failure counter will not
 	 * get incremented.
 	 * 
-	 * @param ignored the set of exceptions to ignore
+	 * @param ignored the Set of exceptions to ignore
 	 */
 	@SuppressWarnings("unchecked")
 	public void setIgnoredExceptions(Set<Class<? extends Throwable>> ignored) {

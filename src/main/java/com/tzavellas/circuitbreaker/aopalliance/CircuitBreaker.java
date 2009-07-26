@@ -8,6 +8,7 @@ import com.tzavellas.circuitbreaker.support.ProxyBasedCircuitBreakerAspectSuppor
 /**
  * Implements the Circuit Breaker stability design pattern using AOP Alliance APIs.
  * 
+ * @see ProxyBasedCircuitBreakerAspectSupport
  * @author spiros
  */
 public class CircuitBreaker extends ProxyBasedCircuitBreakerAspectSupport implements MethodInterceptor {

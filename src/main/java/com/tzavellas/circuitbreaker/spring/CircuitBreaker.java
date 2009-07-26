@@ -4,11 +4,12 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import com.tzavellas.circuitbreaker.support.ProxyBasedCircuitBreakerAspectSupport;
 
 /**
- * Implements the Circuit Breaker stability design pattern using spring-aop.
+ * Implements the Circuit Breaker stability design pattern using Spring AOP.
  * 
  * <p>This implementation uses an around advice and can be configured using
  * dependency injection.</p>
  * 
+ * @see ProxyBasedCircuitBreakerAspectSupport
  * @author spiros
  */
 public class CircuitBreaker extends ProxyBasedCircuitBreakerAspectSupport {

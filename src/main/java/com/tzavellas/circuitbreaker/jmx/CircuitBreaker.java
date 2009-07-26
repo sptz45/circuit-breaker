@@ -30,6 +30,16 @@ public class CircuitBreaker implements CircuitBreakerMBean{
 	public int getCurrentFailures() {
 		return info.getCurrentFailures();
 	}
+	
+	/** {@inheritDoc} */
+	public String getCurrentFailuresDuration() {
+		return info.getCurrentFailuresDuration().toString();
+	}
+	
+	/** {@inheritDoc} */
+	public String getMaxMethodDuration() {
+		return breaker.getMaxMethodDuration().toString();
+	}
 
 	/** {@inheritDoc} */
 	public int getFailures() {

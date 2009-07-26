@@ -15,7 +15,6 @@ import com.tzavellas.circuitbreaker.jmx.JmxUtils;
  * 
  * @see CircuitBreakerAspectSupport
  * @see JmxUtils
- * 
  * @author spiros
  */
 class CircuitJmxRegistrar {
@@ -50,6 +49,7 @@ class CircuitJmxRegistrar {
 			} catch (JMException e) {
 				throw new RuntimeException(e);
 			}
+			name = null;
 		}
 	}
 	

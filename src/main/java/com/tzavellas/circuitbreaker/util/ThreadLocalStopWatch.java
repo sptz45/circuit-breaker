@@ -1,6 +1,13 @@
 package com.tzavellas.circuitbreaker.util;
 
-public class ThreadLocalStopwatch {
+/**
+ * A StopWatch that has separate timer for each thread.
+ * 
+ * <p>This class is thread-safe.</p>
+ * 
+ * @author spiros
+ */
+public class ThreadLocalStopWatch {
 	
 	private static Long ZERO = Long.valueOf(0);
 	
@@ -15,14 +22,17 @@ public class ThreadLocalStopwatch {
 	private ThreadLocal<Long> end = new LongThreadLocal();
 	private String operation;
 	
-	public ThreadLocalStopwatch() {
-		operation = "operation";
+	public ThreadLocalStopWatch() {
+		this("operation");
 	}
 	
-	public ThreadLocalStopwatch(String operation) {
+	public ThreadLocalStopWatch(String operation) {
 		this.operation = operation;
 	}
 	
+	/**
+	 * Start the timer.
+	 */
 	public void start() {
 		if (beginning.get() != 0) {
 			throw new IllegalStateException("A Stopwatch cannot be re-started!");
@@ -30,6 +40,9 @@ public class ThreadLocalStopwatch {
 		beginning.set(System.nanoTime());
 	}
 	
+	/**
+	 * Stop the timer.
+	 */
 	public void stop() {
 		if (beginning.get() == 0) {
 			throw new IllegalStateException("You cannot stop a Stopwatch that has not been started!");

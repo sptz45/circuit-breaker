@@ -7,9 +7,10 @@ import javax.annotation.PreDestroy;
 import com.tzavellas.circuitbreaker.util.Duration;
 
 /**
- * An abstract class that implements the basic template for a Circuit Breaker implemented
- * using proxy based AOP.
+ * An abstract class that implements the basic template for a Circuit Breaker
+ * implemented using proxy based AOP.
  * 
+ * @see CircuitBreakerAspectSupport
  * @author spiros
  */
 public abstract class ProxyBasedCircuitBreakerAspectSupport extends CircuitBreakerAspectSupport implements CircuitConfiguration {
@@ -67,8 +68,10 @@ public abstract class ProxyBasedCircuitBreakerAspectSupport extends CircuitBreak
 	 * @param ignored the set of exceptions to ignore
 	 */
 	public void setIgnoredExceptions(Set<Class<? extends Throwable>> ignored) {
-		ignoredExceptions.clear();
-		ignoredExceptions.addAll(ignored);
+		if (ignored != null) {
+			ignoredExceptions.clear();
+			ignoredExceptions.addAll(ignored);
+		}
 	}
 	
 	@PreDestroy

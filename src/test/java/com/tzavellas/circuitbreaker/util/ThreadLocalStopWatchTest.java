@@ -3,9 +3,9 @@ package com.tzavellas.circuitbreaker.util;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-public class ThreadLocalStopwatchTest {
+public class ThreadLocalStopWatchTest {
 	
-	final ThreadLocalStopwatch sw = new ThreadLocalStopwatch();
+	final ThreadLocalStopWatch sw = new ThreadLocalStopWatch();
 	
 	@Test
 	public void the_stopwatch_checks_for_legal_state_before_answering() {

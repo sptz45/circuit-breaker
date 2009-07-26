@@ -186,6 +186,14 @@ public class CircuitInfo {
 	}
 	
 	/**
+	 * Get the duration after which the number of failures track by
+	 * the circuit breaker gets reset. 
+	 */
+	public Duration getCurrentFailuresDuration() {
+		return currentFailuresDuration;
+	}
+	
+	/**
 	 * Resets this circuit's configuration to default values.
 	 * 
 	 * @see {@link DEFAULT_MAX_FAILURES}

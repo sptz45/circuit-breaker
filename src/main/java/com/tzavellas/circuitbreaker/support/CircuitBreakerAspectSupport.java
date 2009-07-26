@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import com.tzavellas.circuitbreaker.CircuitInfo;
 import com.tzavellas.circuitbreaker.OpenCircuitException;
 import com.tzavellas.circuitbreaker.util.Duration;
-import com.tzavellas.circuitbreaker.util.ThreadLocalStopwatch;
+import com.tzavellas.circuitbreaker.util.ThreadLocalStopWatch;
 
 /**
  * An abstract class that provides all the functionality needed to implement the
@@ -34,7 +34,7 @@ import com.tzavellas.circuitbreaker.util.ThreadLocalStopwatch;
  */ 
 public abstract class CircuitBreakerAspectSupport {
 	
-	private final ThreadLocalStopwatch stopwatch = new ThreadLocalStopwatch();
+	private final ThreadLocalStopWatch stopwatch = new ThreadLocalStopWatch();
 	
 	protected final CircuitInfo circuit = new CircuitInfo();
 	protected CircuitJmxRegistrar registrar;
@@ -168,5 +168,12 @@ public abstract class CircuitBreakerAspectSupport {
 	 */
 	public void setMaxMethodDuration(Duration d) {
 		maxMethodDuration = d;
+	}
+	
+	/**
+	 * Get the duration after which a method execution is considered a failure.
+	 */
+	public Duration getMaxMethodDuration() {
+		return maxMethodDuration;
 	}
 }

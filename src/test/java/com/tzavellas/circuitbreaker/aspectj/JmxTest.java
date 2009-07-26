@@ -49,6 +49,14 @@ public class JmxTest extends AbstractJmxTest {
 	}
 	
 	@Test
+	public void setEnableJmx_unregisters_once() throws Exception {
+		time = new TimeService();
+		IntegrationPointBreaker.aspectOf(time).setEnableJmx(true);
+		IntegrationPointBreaker.aspectOf(time).setEnableJmx(false);
+		IntegrationPointBreaker.aspectOf(time).setEnableJmx(false);
+	}
+	
+	@Test
 	public void prevent_jmx_name_collision_for_two_objects_of_the_same_type() throws Exception {
 		CircuitBreakerConfigurator.aspectOf().setEnableJmx(true);
 		time = new TimeService();

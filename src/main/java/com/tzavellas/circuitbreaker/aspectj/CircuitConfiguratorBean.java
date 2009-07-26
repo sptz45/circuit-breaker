@@ -20,7 +20,8 @@ import com.tzavellas.circuitbreaker.util.Duration;
  * the configuration is done via JavaBean properties and the {@link CircuitConfiguratorBean#configure()}
  * method is annotated with {@code @PostConstruct} so when used with the Spring Framework it is called
  * automatically.</p> 
- * 
+ *
+ * @see CircuitBreaker
  * @author spiros
  */
 public class CircuitConfiguratorBean implements CircuitConfiguration {

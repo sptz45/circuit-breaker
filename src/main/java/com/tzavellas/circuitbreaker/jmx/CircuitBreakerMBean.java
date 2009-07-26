@@ -7,17 +7,15 @@ import com.tzavellas.circuitbreaker.util.Duration;
 public interface CircuitBreakerMBean {
 	
 	/**
+	 * Test whether the circuit is open.
+	 */
+	boolean isOpen();
+	
+	/**
 	 * Open the circuit, causing any subsequent calls made through the
 	 * circuit to stop throwing an OpenCircuitException.
 	 */
 	void open();
-	
-	/**
-	 * Close the circuit, allowing any method call to propagate to
-	 * their recipients.
-	 */
-	void close();
-	
 	
 	/**
 	 * Test whether the circuit is closed.
@@ -25,9 +23,10 @@ public interface CircuitBreakerMBean {
 	boolean isClosed();
 	
 	/**
-	 * Test whether the circuit is open.
+	 * Close the circuit, allowing any method call to propagate to
+	 * their recipients.
 	 */
-	boolean isOpen();
+	void close();
 	
 	/**
 	 * Test whether the circuit is open.
@@ -86,7 +85,13 @@ public interface CircuitBreakerMBean {
 	void setTimeout(String timeout);
 	
 	/**
-	 * Specify the duration after which the number of failures track by
+	 * Get the duration after which the number of failures tracked by
+	 * the circuit breaker gets reset. 
+	 */
+	String getCurrentFailuresDuration();
+	
+	/**
+	 * Specify the duration after which the number of failures tracked by
 	 * the circuit breaker gets reset. 
 	 * 
 	 * @param duration a string representing a {@code Duration} object.
@@ -94,6 +99,11 @@ public interface CircuitBreakerMBean {
 	 * @see Duration
 	 */
 	void setCurrentFailuresDuration(String duration);
+	
+	/**
+	 * Get the duration after which a method execution is considered a failure.
+	 */
+	String getMaxMethodDuration();
 	
 	/**
 	 * Set the duration after which a method execution is considered a failure.
