@@ -20,7 +20,7 @@
 	<bean id="timeService" class="com.tzavellas.test.spring.TimeService"/>
 	<bean id="timeBreaker" class="com.tzavellas.circuitbreaker.spring.CircuitBreaker">
 		<property name="maxFailures" value="6"/>
-		<property name="timeoutMillis" value="2"/>
+		<property name="timeout" value="2ms"/>
 		<property name="currentFailuresDuration" value="3ms"/>
 	</bean>
 	

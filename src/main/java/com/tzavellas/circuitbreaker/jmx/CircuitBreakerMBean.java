@@ -1,14 +1,24 @@
-package com.tzavellas.circuitbreaker;
+package com.tzavellas.circuitbreaker.jmx;
 
 import java.util.Date;
 
-/**
- * The MBean interface for CircuitInfo objects to JMX.
- * 
- * @author spiros
- */
-public interface CircuitInfoMBean {
+import com.tzavellas.circuitbreaker.util.Duration;
 
+public interface CircuitBreakerMBean {
+	
+	/**
+	 * Open the circuit, causing any subsequent calls made through the
+	 * circuit to stop throwing an OpenCircuitException.
+	 */
+	void open();
+	
+	/**
+	 * Close the circuit, allowing any method call to propagate to
+	 * their recipients.
+	 */
+	void close();
+	
+	
 	/**
 	 * Test whether the circuit is closed.
 	 */
@@ -52,42 +62,46 @@ public interface CircuitInfoMBean {
 	int getTimesOpened();
 	
 	/**
-	 * The number of failures after the cicuit opens.
+	 * The number of failures after the circuit opens.
 	 */
 	int getMaxFailures();
 	
 	/**
-	 * Set the number of failures after the cicuit opens.
+	 * Set the number of failures after the circuit opens.
 	 */
 	void setMaxFailures(int n);
 	
 	/**
 	 * The timeout after which the circuit closes.
 	 */
-	long getTimeoutMillis();
+	String getTimeout();
 	
 	/**
 	 * Set the timeout after which the circuit closes.
+	 * 
+	 * @param timeout a String formated Duration
+	 * 
+	 * @see Duration
 	 */
-	void setTimeoutMillis(long millis);
+	void setTimeout(String timeout);
 	
 	/**
 	 * Specify the duration after which the number of failures track by
 	 * the circuit breaker gets reset. 
 	 * 
 	 * @param duration a string representing a {@code Duration} object.
+	 * 
+	 * @see Duration
 	 */
 	void setCurrentFailuresDuration(String duration);
 	
 	/**
-	 * Open the circuit, causing any subsequent calls made through the
-	 * circuit to stop throwing an OpenCircuitException.
+	 * Set the duration after which a method execution is considered a failure.
+	 * 
+	 * @param d a String formated Duration or <code>null</code> if you want to disable
+	 *          the tracking of execution time.
+	 *          
+	 * @see Duration
 	 */
-	void open();
-	
-	/**
-	 * Close the circuit, allowing any method call to propagate to
-	 * their recipients.
-	 */
-	void close();
+	void setMaxMethodDuration(String duration);
 }

@@ -25,7 +25,7 @@ import com.tzavellas.circuitbreaker.util.Duration;
  */
 public class CircuitConfiguratorBean implements CircuitConfiguration {
 	
-	private long timeoutMillis = CircuitInfo.DEFAULT_TIMEOUT;
+	private Duration timeout = Duration.millis(CircuitInfo.DEFAULT_TIMEOUT);
 	private int maxFailures = CircuitInfo.DEFAULT_MAX_FAILURES;
 	private Duration currentFailuresDuration = CircuitInfo.DEFAULT_CURRENT_FAILURES_DURATION;
 	private Duration maxMethodDuration = null;
@@ -43,7 +43,7 @@ public class CircuitConfiguratorBean implements CircuitConfiguration {
 	public void configure() throws Exception {
 		CircuitInfo circuitInfo = circuitBreaker.getCircuitInfo();
 		circuitInfo.setMaxFailures(maxFailures);
-		circuitInfo.setTimeoutMillis(timeoutMillis);
+		circuitInfo.setTimeout(timeout);
 		circuitInfo.setCurrentFailuresDuration(currentFailuresDuration);
 		if (enableJmx != null)
 			circuitBreaker.setEnableJmx(enableJmx);
@@ -51,8 +51,8 @@ public class CircuitConfiguratorBean implements CircuitConfiguration {
 	}	
 	
 	/** {@inheritDoc} */
-	public void setTimeoutMillis(long timeoutMillis) {
-		this.timeoutMillis = timeoutMillis;
+	public void setTimeout(Duration timeout) {
+		this.timeout= timeout;
 	}
 	/** {@inheritDoc} */
 	public void setMaxFailures(int maxFailures) {

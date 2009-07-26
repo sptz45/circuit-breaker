@@ -53,7 +53,7 @@ public abstract class CircuitBreakerAspectSupport {
 	 * <p>To be invoked once, by the extending aspect.</p>
 	 */
 	protected void onTargetInitialization(Object target) {
-		registrar = new CircuitJmxRegistrar(circuit, target);
+		registrar = new CircuitJmxRegistrar(this, target);
 		if (enableJmx)
 			registrar.register();
 	}

@@ -53,7 +53,7 @@ public abstract class AbstractCircuitBreakerTest {
 	@Test
 	public void the_circuit_is_half_open_after_the_timeout() throws Exception {
 		CircuitInfo circuit = stocksBreaker.getCircuitInfo(); 
-		circuit.setTimeoutMillis(1);
+		circuit.setTimeout(Duration.millis(1));
 		generateFaultsToOpen();
 		Thread.sleep(2);
 		assertTrue(circuit.isHalfOpen());
@@ -64,7 +64,7 @@ public abstract class AbstractCircuitBreakerTest {
 	@Test
 	public void the_circuit_moves_from_half_open_to_open_on_first_failure() throws Exception {
 		CircuitInfo circuit = stocksBreaker.getCircuitInfo(); 
-		circuit.setTimeoutMillis(1);
+		circuit.setTimeout(Duration.millis(1));
 		generateFaultsToOpen();
 		Thread.sleep(2);
 		assertTrue(circuit.isHalfOpen());

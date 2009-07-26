@@ -53,8 +53,8 @@ public class CircuitBreaker extends CircuitBreakerAspectSupport implements Circu
 		getCircuitInfo().setMaxFailures(maxFailures);
 	}
 	/** {@inheritDoc} */
-	public void setTimeoutMillis(long timeoutMillis) {
-		getCircuitInfo().setTimeoutMillis(timeoutMillis);
+	public void setTimeout(Duration timeout) {
+		getCircuitInfo().setTimeout(timeout);
 	}
 	/** {@inheritDoc} */
 	public void setCurrentFailuresDuration(Duration d) {

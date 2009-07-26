@@ -5,9 +5,9 @@ import com.tzavellas.circuitbreaker.util.Duration;
 public interface CircuitConfiguration {
 
 	/**
-	 * Set the timeout in milliseconds before the circuit closes again.
+	 * Set the timeout before the circuit closes again.
 	 */
-	void setTimeoutMillis(long timeoutMillis);
+	void setTimeout(Duration timout);
 
 	/**
 	 * Set the maximum number of failures that must occur before the

@@ -45,7 +45,7 @@ public class CircuitConfigurationTest {
 
 	@Test
 	public void change_timeout_and_test() throws Exception {
-		configurator.setTimeoutMillis(1);
+		configurator.setTimeout(Duration.millis(1));
 		configurator.configure();
 		generateFaults(CircuitInfo.DEFAULT_MAX_FAILURES);
 		Thread.sleep(5);

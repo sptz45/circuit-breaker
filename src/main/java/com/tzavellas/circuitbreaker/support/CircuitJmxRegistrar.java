@@ -6,27 +6,27 @@ import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
-import com.tzavellas.circuitbreaker.CircuitInfo;
+import com.tzavellas.circuitbreaker.jmx.CircuitBreaker;
+import com.tzavellas.circuitbreaker.jmx.JmxUtils;
 
 /**
- * A class that knows how to register and unregister {@code CircuitInfo}
+ * A class that knows how to register and unregister {@code CircuitBreaker}
  * objects in JMX.
  * 
  * @see CircuitBreakerAspectSupport
- * @see CircuitInfo
  * @see JmxUtils
  * 
  * @author spiros
  */
 class CircuitJmxRegistrar {
 	
-	private CircuitInfo circuit;
-	private Object target;
+	private final CircuitBreaker jmxBreaker;
+	private final Object target;
+	
 	private ObjectName name;
 	
-	
-	CircuitJmxRegistrar(CircuitInfo circuit, Object target) {
-		this.circuit = circuit;
+	CircuitJmxRegistrar(CircuitBreakerAspectSupport breaker, Object target) {
+		jmxBreaker = new CircuitBreaker(breaker);
 		this.target = target;
 	}
 	
@@ -36,7 +36,7 @@ class CircuitJmxRegistrar {
 		try {
 			name = new ObjectName(JmxUtils.getObjectName(target));
 			MBeanServer server = ManagementFactory.getPlatformMBeanServer();
-			server.registerMBean(circuit, name);
+			server.registerMBean(jmxBreaker, name);
 		} catch (JMException e) {
 			throw new RuntimeException(e);
 		}

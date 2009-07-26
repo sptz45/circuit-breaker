@@ -6,9 +6,9 @@ import org.junit.After;
 import org.junit.Test;
 
 import com.tzavellas.circuitbreaker.AbstractJmxTest;
-import com.tzavellas.circuitbreaker.CircuitInfoMBean;
 import com.tzavellas.circuitbreaker.OpenCircuitException;
-import com.tzavellas.circuitbreaker.support.JmxUtils;
+import com.tzavellas.circuitbreaker.jmx.CircuitBreakerMBean;
+import com.tzavellas.circuitbreaker.jmx.JmxUtils;
 import com.tzavellas.test.ITimeService;
 import com.tzavellas.test.spring.TimeService;
 
@@ -22,8 +22,8 @@ public class JmxTest extends AbstractJmxTest {
 	}
 	
 	@Override
-	protected CircuitInfoMBean mbean() throws JMException {
-		return JmxUtils.circuitInfoForType(TimeService.class).iterator().next();
+	protected CircuitBreakerMBean mbean() throws JMException {
+		return JmxUtils.circuitBreakerForType(TimeService.class).iterator().next();
 	}
 	
 	@After

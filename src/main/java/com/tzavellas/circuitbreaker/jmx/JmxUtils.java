@@ -1,4 +1,4 @@
-package com.tzavellas.circuitbreaker.support;
+package com.tzavellas.circuitbreaker.jmx;
 
 import java.lang.management.ManagementFactory;
 import java.util.HashSet;
@@ -9,8 +9,6 @@ import javax.management.JMX;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
-import com.tzavellas.circuitbreaker.CircuitInfoMBean;
-
 /**
  * Various helper methods for using JMX with CircuitInfo objects.
  * 
@@ -20,25 +18,25 @@ public abstract class JmxUtils {
 	
 	private JmxUtils() { }
 	
-	public static CircuitInfoMBean getCircuitInfo(Object target) throws JMException {
-		return getCircuitInfo(new ObjectName(getObjectName(target)));
+	public static CircuitBreakerMBean getCircuitBreaker(Object target) throws JMException {
+		return getCircuitBreaker(new ObjectName(getObjectName(target)));
 			
 	}
 	
-	private static CircuitInfoMBean getCircuitInfo(ObjectName name) throws JMException {
+	private static CircuitBreakerMBean getCircuitBreaker(ObjectName name) throws JMException {
 		return JMX.newMBeanProxy(
 			ManagementFactory.getPlatformMBeanServer(),
 			name,
-			CircuitInfoMBean.class);
+			CircuitBreakerMBean.class);
 	}
 	
-	public static Set<CircuitInfoMBean> circuitInfoForType(Class<?> targetClass) throws JMException {
+	public static Set<CircuitBreakerMBean> circuitBreakerForType(Class<?> targetClass) throws JMException {
 		MBeanServer server = ManagementFactory.getPlatformMBeanServer();
 		String query = String.format("com.tzavellas.circuitbreaker:type=CircuitInfo,target=%s,code=*", targetClass.getSimpleName());
 		Set<ObjectName> names = server.queryNames(new ObjectName(query), null);
-		Set<CircuitInfoMBean> mbeans = new HashSet<CircuitInfoMBean>();
+		Set<CircuitBreakerMBean> mbeans = new HashSet<CircuitBreakerMBean>();
 		for (ObjectName name: names)
-			mbeans.add(getCircuitInfo(name));
+			mbeans.add(getCircuitBreaker(name));
 		return mbeans;
 	}
 

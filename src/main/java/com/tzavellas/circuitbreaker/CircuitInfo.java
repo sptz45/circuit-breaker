@@ -15,7 +15,7 @@ import com.tzavellas.circuitbreaker.util.Duration;
  * @see CircuitBreakerAspectSupport
  * @author spiros
  */
-public class CircuitInfo implements CircuitInfoMBean {
+public class CircuitInfo {
 	
 	public static final int DEFAULT_MAX_FAILURES = 5;
 	public static final long DEFAULT_TIMEOUT = 10 * 60 * 1000; // 10min
@@ -27,37 +27,49 @@ public class CircuitInfo implements CircuitInfoMBean {
 	private final CircuitStatistics stats = new CircuitStatistics();
 	
 	private volatile int maxFailures = DEFAULT_MAX_FAILURES;
-	private AtomicLong timeout = new AtomicLong(DEFAULT_TIMEOUT);
+	private volatile Duration timeout = Duration.millis(DEFAULT_TIMEOUT);
 	private volatile Duration currentFailuresDuration = DEFAULT_CURRENT_FAILURES_DURATION;
 	
 	
-	/** {@inheritDoc} */
+	/**
+	 * Test whether the circuit is closed.
+	 */
 	public boolean isClosed() {
 		return ! isOpen();
 	}
 	
-	/** {@inheritDoc} */
+	/**
+	 * Test whether the circuit is open.
+	 */
 	public boolean isOpen() {
 		return currentFailures.get() >= maxFailures && !isHalfOpen();
 	}
 	
-	/** {@inheritDoc} */
+	/**
+	 * Test whether the circuit is open.
+	 */
 	public boolean isHalfOpen() {
 		return hasExpired();
 	}
 	
 	private boolean hasExpired() {
 		long timestampt = openTimestamp.get(); 
-		return timestampt != 0 && timestampt + timeout.get() <= System.currentTimeMillis();
+		return timestampt != 0 && timestampt + timeout.toMillis() <= System.currentTimeMillis();
 	}
 	
-	/** {@inheritDoc} */
+	/**
+	 * Close the circuit, allowing any method call to propagate to
+	 * their recipients.
+	 */
 	public void close() {
 		currentFailures.set(0);
 		openTimestamp.set(0);
 	}
 	
-	/** {@inheritDoc} */
+	/**
+	 * Open the circuit, causing any subsequent calls made through the
+	 * circuit to stop throwing an OpenCircuitException.
+	 */
 	public void open() {
 		openTimestamp.set(System.currentTimeMillis());	
 		currentFailures.set(maxFailures);
@@ -97,52 +109,70 @@ public class CircuitInfo implements CircuitInfoMBean {
 		stats.calls.incrementAndGet();
 	}
 
-	/** {@inheritDoc} */
-	public void setMaxFailures(int maxFailures) {
-		this.maxFailures = maxFailures;
-	}
-	
-	/** {@inheritDoc} */
+	/**
+	 * Get the Date the circuit was opened.
+	 * 
+	 * @return if the circuit is open return the open timestamp else null 
+	 */
 	public Date getOpenTimestamp() {
 		long timestamp = openTimestamp.get();
 		return (timestamp == 0)? null: new Date(timestamp);
 	}
 	
-	/** {@inheritDoc} */
+	/**
+	 * The number of calls being made through the circuit.
+	 */
 	public int getCalls() {
 		return stats.calls.get();
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * The number of failures since the circuit was closed. 
+	 */
 	public int getCurrentFailures() {
 		return currentFailures.get();
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * The number of total failures.
+	 */
 	public int getFailures() {
 		return stats.failures.get();
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * The number of failures after the circuit opens.
+	 */
 	public int getMaxFailures() {
 		return maxFailures;
 	}
+	
+	/**
+	 * Set the number of failures after the circuit opens.
+	 */
+	public void setMaxFailures(int maxFailures) {
+		this.maxFailures = maxFailures;
+	}
 
-	/** {@inheritDoc} */
-	public long getTimeoutMillis() {
-		return timeout.get();
+	/**
+	 * The timeout after which the circuit closes.
+	 */
+	public Duration getTimeout() {
+		return timeout;
 	}
-	/** {@inheritDoc} */
-	public void setTimeoutMillis(long millis) {
-		timeout.set(millis);
+	
+	/**
+	 * Set the timeout after which the circuit closes.
+	 */
+	public void setTimeout(Duration timeout) {
+		this.timeout = timeout;
 	}
-	/** {@inheritDoc} */
+	
+	/**
+	 * The number of times the circuit has been opened.
+	 */
 	public int getTimesOpened() {
 		return stats.timesOpened.get();
-	}
-	/** {@inheritDoc} */
-	public void setCurrentFailuresDuration(String duration) {
-		currentFailuresDuration = Duration.valueOf(duration);
 	}
 
 	/**
@@ -164,7 +194,7 @@ public class CircuitInfo implements CircuitInfoMBean {
 	 */
 	public void resetToDefaultConfig() {
 		maxFailures = DEFAULT_MAX_FAILURES;
-		timeout = new AtomicLong(DEFAULT_TIMEOUT);
+		timeout = Duration.millis(DEFAULT_TIMEOUT);
 		currentFailuresDuration = DEFAULT_CURRENT_FAILURES_DURATION;
 	}
 	
