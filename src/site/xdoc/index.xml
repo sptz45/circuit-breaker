@@ -16,15 +16,13 @@
     		<a href="http://pragmaticprogrammer.com/titles/mnee/index.html">Release It!</a> by
     		<a href="http://www.michaelnygard.com/">Michael Nygard</a>.
     	</p>
-  
-  		<p>For more information please read the project's <a href="faq.html">FAQ</a>.</p>
     </section>
 	
 	<section name="News">
 		
 		<h5>4 September 2009</h5>
 		<ul>
-			<li>Released <a href="circuit-breaker-bin.zip">circuit-breaker-1.0</a>.</li>
+			<li>Released <em>circuit-breaker-0.9</em>.</li>
 		</ul>
 	
 		<h5>26 July 2009</h5>
