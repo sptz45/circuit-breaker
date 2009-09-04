@@ -19,15 +19,13 @@
   
   		<p>For more information please read the project's <a href="faq.html">FAQ</a>.</p>
     </section>
-
-	<section name="Status">
-		<p>The project has no stable release yet but we have implemented all the features planned for
-		the first release and there are no known bugs.
-		</p>
-	</section>
 	
 	<section name="News">
-		<p>For the complete list of changes visit the project's <a href="http://github.com/sptz45/circuit-breaker/commits/">commit history</a></p>
+		
+		<h5>4 September 2009</h5>
+		<ul>
+			<li>Released <a href="circuit-breaker-bin.zip">circuit-breaker-1.0</a>.</li>
+		</ul>
 	
 		<h5>26 July 2009</h5>
 		<ul>
