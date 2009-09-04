@@ -11,13 +11,13 @@
 	     The CircuitConfiguratorBean must be instantiated after the IntegrationPointBreaker aspect.
 	 -->
 	
-	<bean class="com.tzavellas.circuitbreaker.aspectj.CircuitBreakerConfigurator" factory-method="aspectOf">
+	<bean id="configurator" class="com.tzavellas.circuitbreaker.aspectj.CircuitBreakerConfigurator" factory-method="aspectOf">
 		<property name="enableJmx" value="true"/>
 	</bean>
 	
-	<bean id="timeService" class="com.tzavellas.test.aj.TimeService"/>
+	<bean id="timeService" class="com.tzavellas.test.aj.TimeService" depends-on="configurator"/>
 	
-	<bean class="com.tzavellas.circuitbreaker.aspectj.CircuitConfiguratorBean">
+	<bean class="com.tzavellas.circuitbreaker.aspectj.CircuitConfiguratorBean" depends-on="timeService">
 		<property name="aspectClass" value="com.tzavellas.circuitbreaker.aspectj.IntegrationPointBreaker"/>
 		<property name="target" ref="timeService"/>
 		<property name="maxFailures" value="1"/>

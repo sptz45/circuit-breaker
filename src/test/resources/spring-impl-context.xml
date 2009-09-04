@@ -20,13 +20,11 @@
 			
 	<aop:config>
 		<aop:aspect id="time" ref="timeBreaker">
-			<aop:pointcut id="timePointcut" expression="execution(* com.tzavellas.test.spring.TimeService.*(..))"/>
-			<aop:around  pointcut-ref="timePointcut" method="around"/>			
+			<aop:around  method="around" pointcut="execution(* com.tzavellas.test.spring.TimeService.*(..))"/>			
 		</aop:aspect>
 		
 		<aop:aspect id="stocks" ref="stocksBreaker">
-			<aop:pointcut id="stocksPointcut" expression="bean(stockService)"/>
-			<aop:around  pointcut-ref="stocksPointcut" method="around"/>			
+			<aop:around  method="around" pointcut="bean(stockService)"/>			
 		</aop:aspect>
 	</aop:config>
 	
