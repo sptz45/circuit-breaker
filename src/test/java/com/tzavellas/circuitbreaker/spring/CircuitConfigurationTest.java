@@ -2,9 +2,6 @@ package com.tzavellas.circuitbreaker.spring;
 
 import static org.junit.Assert.*;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,8 +10,6 @@ import com.tzavellas.circuitbreaker.OpenCircuitException;
 import com.tzavellas.test.ITimeService;
 
 public class CircuitConfigurationTest  {
-	
-	private static final int NEW_MAX_FAILURES = 6;
 	
 	final ITimeService time;
 	final CircuitBreaker timeBreaker;
@@ -59,12 +54,12 @@ public class CircuitConfigurationTest  {
 	}
 	
 	@Test 
-	public void add_ignored_exception_to_prevent_the_circuit_from_opening() {
-		Set<Class<? extends Throwable>> ignored = new HashSet<Class<? extends Throwable>>();
-		ignored.add(IllegalStateException.class);
-		timeBreaker.setIgnoredExceptions(ignored);
-		generateFaults(NEW_MAX_FAILURES);
-		assertEquals(ITimeService.EXPECTED, time.networkTime());
+	public void ignored_exceptions_prevent_the_circuit_from_opening() {
+		ITimeService iTime = (ITimeService) SpringLoader.CONTEXT.getBean("ignoredTimeService");
+		for (int i = 0; i < CircuitInfo.DEFAULT_MAX_FAILURES; i++) {
+			try { iTime.faultyNetworkTime(); } catch (IllegalStateException expected) { }
+		}
+		assertEquals(ITimeService.EXPECTED, iTime.networkTime());
 	}
 	
 	private void generateFaults(int failures) {

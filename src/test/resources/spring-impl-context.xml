@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xmlns:aop="http://www.springframework.org/schema/aop"
-		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<bean class="com.tzavellas.circuitbreaker.util.DurationProcessor"/>
+	<bean class="com.tzavellas.circuitbreaker.spring.SpringXmlConfigurationSupport"/>
 	
 	<bean id="timeService" class="com.tzavellas.test.spring.TimeService"/>
 	<bean id="timeBreaker" class="com.tzavellas.circuitbreaker.spring.CircuitBreaker">
 		<property name="maxFailures" value="6"/>
 		<property name="timeout" value="2ms"/>
 		<property name="currentFailuresDuration" value="3ms"/>
+	</bean>
+	
+	<bean id="ignoredTimeService" class="com.tzavellas.test.spring.TimeService"/>
+	<bean id="ignoredTimeBreaker" class="com.tzavellas.circuitbreaker.spring.CircuitBreaker">
+		<property name="ignoredExceptions">
+			<set>
+				<value>java.lang.IllegalStateException</value>
+			</set>
+		</property>
 	</bean>
 	
 	<bean id="stockService" class="com.tzavellas.test.spring.StockService"/>
@@ -20,6 +29,10 @@
 			
 	<aop:config>
 		<aop:aspect id="time" ref="timeBreaker">
+			<aop:around  method="around" pointcut="execution(* com.tzavellas.test.spring.TimeService.*(..))"/>			
+		</aop:aspect>
+		
+		<aop:aspect id="ignoredTime" ref="ignoredTimeBreaker">
 			<aop:around  method="around" pointcut="execution(* com.tzavellas.test.spring.TimeService.*(..))"/>			
 		</aop:aspect>
 		

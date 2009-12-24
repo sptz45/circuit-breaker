@@ -1,25 +1,26 @@
-package com.tzavellas.circuitbreaker.util;
+package com.tzavellas.circuitbreaker.spring;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyEditorRegistrar;
 import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.propertyeditors.ClassEditor;
+
+import com.tzavellas.circuitbreaker.util.Duration;
 
 /**
- * A {@link BeanFactoryPostProcessor} that registers a property editor
- * for {@link Duration} objects.
+ * A {@link BeanFactoryPostProcessor} that registers a property editors
+ * for {@link Duration} and {@link Class} objects.
  * 
- * @deprecated Use SpringXmlConfigurationSupport instead, since it also registers a PropertyEditor for
- *             <code>java.lang.Class</code>.
  * @author spiros
  */
-@Deprecated
-public class DurationProcessor implements BeanFactoryPostProcessor {
+public class SpringXmlConfigurationSupport implements BeanFactoryPostProcessor {
 	
 	private static final PropertyEditorRegistrar REGISTRAR = new PropertyEditorRegistrar() {
 		public void registerCustomEditors(PropertyEditorRegistry registry) {
 			registry.registerCustomEditor(Duration.class, new Duration.Editor());
+			registry.registerCustomEditor(Class.class, new ClassEditor());
 		}
 	};
 	
