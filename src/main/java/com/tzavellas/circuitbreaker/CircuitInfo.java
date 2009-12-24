@@ -68,7 +68,7 @@ public class CircuitInfo {
 	
 	/**
 	 * Open the circuit, causing any subsequent calls made through the
-	 * circuit to stop throwing an OpenCircuitException.
+	 * circuit to throw an OpenCircuitException.
 	 */
 	public void open() {
 		openTimestamp.set(System.currentTimeMillis());	
@@ -218,7 +218,7 @@ public class CircuitInfo {
 
 
 class CircuitStatistics {	
-	AtomicInteger calls = new AtomicInteger();
-	AtomicInteger failures = new AtomicInteger();
-	AtomicInteger timesOpened = new AtomicInteger();
+	final AtomicInteger calls = new AtomicInteger();
+	final AtomicInteger failures = new AtomicInteger();
+	final AtomicInteger timesOpened = new AtomicInteger();
 }
