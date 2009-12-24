@@ -6,7 +6,7 @@
 	<artifactId>circuit-breaker</artifactId>
 	<packaging>jar</packaging>
 	<name>Circuit Breaker</name>
-	<description>An implementation of the Circuit Breaker stability design pattern with AspectJ</description>
+	<description>An implementation of the Circuit Breaker stability design pattern with AOP</description>
 	<version>0.9</version>
 	<url>http://www.tzavellas.com/projects/circuit-breaker/</url>
 
@@ -51,7 +51,7 @@
 	</properties>
 
 	<build>
-		<finalName>${artifactId}</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
