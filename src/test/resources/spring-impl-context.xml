@@ -29,15 +29,15 @@
 			
 	<aop:config>
 		<aop:aspect id="time" ref="timeBreaker">
-			<aop:around  method="around" pointcut="execution(* com.tzavellas.test.spring.TimeService.*(..))"/>			
+			<aop:around  method="around" pointcut="bean(timeService)"/>
 		</aop:aspect>
 		
 		<aop:aspect id="ignoredTime" ref="ignoredTimeBreaker">
-			<aop:around  method="around" pointcut="execution(* com.tzavellas.test.spring.TimeService.*(..))"/>			
+			<aop:around  method="around" pointcut="bean(ignoredTimeService)"/>
 		</aop:aspect>
 		
 		<aop:aspect id="stocks" ref="stocksBreaker">
-			<aop:around  method="around" pointcut="bean(stockService)"/>			
+			<aop:around  method="around" pointcut="bean(stockService)"/>
 		</aop:aspect>
 	</aop:config>
 	
