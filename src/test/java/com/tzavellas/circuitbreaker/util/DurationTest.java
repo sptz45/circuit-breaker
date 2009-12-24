@@ -37,7 +37,7 @@ public class DurationTest {
 	@Test
 	public void test_with_legal_duration_strings() {
 		assertEquals(10, Duration.valueOf("10ns").toNanos());
-		assertEquals(10, Duration.valueOf("10μs").toMicros());
+		assertEquals(10, Duration.valueOf("10us").toMicros());
 		assertEquals(10, Duration.valueOf("10ms").toMillis());
 		assertEquals(10, Duration.valueOf("10s").toSeconds());
 		assertEquals(10, Duration.valueOf("10m").toMinutes());
@@ -84,7 +84,7 @@ public class DurationTest {
 	@Test
 	public void test_toString() {
 		assertEquals("10ns", Duration.nanos(10).toString());
-		assertEquals("10μs", Duration.micros(10).toString());
+		assertEquals("10us", Duration.micros(10).toString());
 		assertEquals("10ms", Duration.millis(10).toString());
 		assertEquals("10s", Duration.seconds(10).toString());
 		assertEquals("10m", Duration.minutes(10).toString());

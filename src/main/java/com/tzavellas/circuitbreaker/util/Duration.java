@@ -59,7 +59,7 @@ public final class Duration {
 		String unitString = null;
 		switch (unit) {
 		case NANOSECONDS:  unitString = "ns"; break;
-		case MICROSECONDS: unitString = "μs"; break;
+		case MICROSECONDS: unitString = "us"; break;
 		case MILLISECONDS: unitString = "ms"; break;
 		case SECONDS:      unitString = "s"; break;
 		case MINUTES:      unitString = "m"; break;
@@ -85,7 +85,7 @@ public final class Duration {
 			if (us.startsWith("m")) unit = TimeUnit.MINUTES;
 			if (us.startsWith("s")) unit = TimeUnit.SECONDS;
 			if (us.startsWith("ms")) unit = TimeUnit.MILLISECONDS;
-			if (us.startsWith("μs")) unit = TimeUnit.MICROSECONDS;
+			if (us.startsWith("us")) unit = TimeUnit.MICROSECONDS;
 			if (us.startsWith("ns")) unit = TimeUnit.NANOSECONDS;
 			if (unit == null) throw new NullPointerException();
 			
