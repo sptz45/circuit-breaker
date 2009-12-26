@@ -10,7 +10,7 @@ import org.springframework.beans.propertyeditors.ClassEditor;
 import com.tzavellas.circuitbreaker.util.Duration;
 
 /**
- * A {@link BeanFactoryPostProcessor} that registers a property editors
+ * A {@link BeanFactoryPostProcessor} that registers property editors
  * for {@link Duration} and {@link Class} objects.
  * 
  * @author spiros

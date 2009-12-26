@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Circuit Breaker</title>
+    <author>Spiros Tzavellas</author>
+  </properties>
+
+  <body>
+    <section name="Installation Instructions">
+    	
+    	<h5>Repository</h5>
+    	<pre><![CDATA[
+<repositories>
+    <repository>
+        <id>tzavellas.com-repo</id>
+        <url>http://www.tzavellas.com/maven</url>
+        <snapshots>
+            <enabled>false</enabled>
+         </snapshots>
+    </repository>
+</repositories>
+    	]]></pre>
+    	
+    	<h5>Dependency</h5>
+    	<pre><![CDATA[
+<dependency>
+    <groupId>com.tzavellas</groupId>
+    <artifactId>circuit-breaker</artifactId>
+    <version>0.9.1</version>
+</dependency>
+    	]]></pre>
+    </section>
+  </body>
+</document>

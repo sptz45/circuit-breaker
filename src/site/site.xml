@@ -33,7 +33,7 @@
 	
 		<menu name="Quick Links">
 			<item name="Main" href="index.html"/>
-			<item name="Download" href="circuit-breaker-bin.zip"/>
+			<item name="Install" href="install.html"/>
 			<item name="Source Code" href="http://github.com/sptz45/circuit-breaker/"/>
 			<item name="Commit History" href="http://github.com/sptz45/circuit-breaker/commits/"/>
 			<item name="License" href="license.html"/>
