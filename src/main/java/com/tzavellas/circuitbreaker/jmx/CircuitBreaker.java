@@ -28,12 +28,12 @@ public class CircuitBreaker implements CircuitBreakerMBean{
 	
 	/** {@inheritDoc} */
 	public String getCurrentFailuresDuration() {
-		return info.getCurrentFailuresDuration().toString();
+		return nullSafeToString(info.getCurrentFailuresDuration());
 	}
 	
 	/** {@inheritDoc} */
 	public String getMaxMethodDuration() {
-		return breaker.getMaxMethodDuration().toString();
+		return nullSafeToString(breaker.getMaxMethodDuration());
 	}
 
 	/** {@inheritDoc} */
@@ -53,7 +53,7 @@ public class CircuitBreaker implements CircuitBreakerMBean{
 
 	/** {@inheritDoc} */
 	public String getTimeout() {
-		return info.getTimeout().toString();
+		return nullSafeToString(info.getTimeout());
 	}
 
 	/** {@inheritDoc} */
@@ -107,5 +107,9 @@ public class CircuitBreaker implements CircuitBreakerMBean{
 	/** {@inheritDoc} */
 	public boolean isHalfOpen() {
 		return info.isHalfOpen();
+	}
+	
+	private String nullSafeToString(Object o) {
+		return o == null? "": o.toString();
 	}
 }
