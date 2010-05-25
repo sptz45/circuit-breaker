@@ -4,6 +4,7 @@ import java.lang.management.ManagementFactory;
 
 import javax.management.JMException;
 import javax.management.MBeanServer;
+import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
 import com.tzavellas.circuitbreaker.jmx.CircuitBreaker;
@@ -19,23 +20,27 @@ import com.tzavellas.circuitbreaker.jmx.JmxUtils;
  */
 class CircuitJmxRegistrar {
 	
+	private final ObjectName name;
 	private final CircuitBreaker jmxBreaker;
-	private final Object target;
 	
-	private ObjectName name;
+	private volatile boolean registered = false;	
 	
 	CircuitJmxRegistrar(CircuitBreakerAspectSupport breaker, Object target) {
 		jmxBreaker = new CircuitBreaker(breaker);
-		this.target = target;
+		try {
+			name = new ObjectName(JmxUtils.getObjectName(target));
+		} catch (MalformedObjectNameException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	void register() {
 		if (isRegistered())
 			return;
 		try {
-			name = new ObjectName(JmxUtils.getObjectName(target));
 			MBeanServer server = ManagementFactory.getPlatformMBeanServer();
 			server.registerMBean(jmxBreaker, name);
+			registered = true;
 		} catch (JMException e) {
 			throw new RuntimeException(e);
 		}
@@ -49,11 +54,11 @@ class CircuitJmxRegistrar {
 			} catch (JMException e) {
 				throw new RuntimeException(e);
 			}
-			name = null;
+			registered = false;
 		}
 	}
 	
 	boolean isRegistered() {
-		return name != null;
+		return registered;
 	}
 }
