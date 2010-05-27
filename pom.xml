@@ -38,6 +38,14 @@
 				<role>developer</role>
 			</roles>
 		</developer>
+		<developer>
+			<id>patrik</id>
+			<name>Patrik Nordwall</name>
+			<email>patrik dot nordwall at gmail dot com</email>
+			<roles>
+				<role>contributor</role>
+			</roles>
+		</developer>
 	</developers>
 
 	<scm>
